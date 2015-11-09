@@ -2,7 +2,7 @@
 A project for the CoDevelop/ team
 
 ## Function of the Hardware
-This hardware has the have the ability to:
+This hardware has the ability to:
 * determine the temperature of the water on the roof (solar panels)
 * determine the tempurature of the hot water cylinder at both the inlet and outlet (top and bottom)
 * switch on the water pump to cycle hot water from the roof panels to the cylinder
@@ -35,6 +35,7 @@ You'll also need a breadboard and appropriate wires.
 Ultimately, I want to make this as compact and robust as possible without going to the extent of get a custom PCB manufactured (yet!), so I've also gone one better than a breadboard (now I have the breadboard based prototype working) and got a [PermaProto HAT from Adafruit](http://www.adafruit.com/products/2310) that sits nicely on top of the Pi and an [extra-long GPIO Stacking Header](https://www.adafruit.com/products/2223) for the proto board just in case I want to mount a display [like this](http://www.adafruit.com/products/1115) one on top.
 
 ## Basic Prototype Layout
+###Whoops...the below diagram wires up the thermistors incorrectly.  I'll post an updated image in the next few days.
 ![alt tag](http://www.webconception.co.nz/media/smartsolar/breadboard.png "Early breadboard design")
 
 Coming soon...photos of the early breadboard prototype, my current prototype and soon the permaproto all soldered up.
