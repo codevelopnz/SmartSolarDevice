@@ -1,5 +1,5 @@
 # SmartSolarDevice
-A project for the CoDevelop/ team
+This is the bit of the [SmartSolarProject](https://github.com/codevelopnz/SmartSolarProject) that runs on the Raspberry Pi.
 
 ## Function of the Hardware
 This hardware has the ability to:
