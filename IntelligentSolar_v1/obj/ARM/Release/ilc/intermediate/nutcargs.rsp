@@ -1,0 +1,9 @@
+/ignoreAccessChecks
+/metadataFile "C:\Users\Trevor\Documents\Visual Studio 2015\Projects\IntelligentSolar_v1\IntelligentSolar_v1\obj\ARM\Release\ilc\intermediate\ILTransformed\IntelligentSolar_v1.metadata"
+/gvmAssemblyName "System.Private.CoreLib"
+/o
+/sharedGenerics
+/ilmergeinfo "C:\Users\Trevor\Documents\Visual Studio 2015\Projects\IntelligentSolar_v1\IntelligentSolar_v1\obj\ARM\Release\ilc\intermediate\ILTransformed\IntelligentSolar_v1.csv"
+/sharedGenericsMode StandardHeuristics
+/in "C:\Users\Trevor\Documents\Visual Studio 2015\Projects\IntelligentSolar_v1\IntelligentSolar_v1\obj\ARM\Release\ilc\intermediate\ILTransformed\IntelligentSolar_v1.ilexe"
+/out "C:\Users\Trevor\Documents\Visual Studio 2015\Projects\IntelligentSolar_v1\IntelligentSolar_v1\obj\ARM\Release\ilc\intermediate\MDIL\IntelligentSolar_v1.mdilexe"

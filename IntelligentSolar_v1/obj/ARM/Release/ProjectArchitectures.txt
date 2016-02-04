@@ -1,0 +1,1 @@
+C:\Users\Trevor\Documents\Visual Studio 2015\Projects\IntelligentSolar_v1\IntelligentSolar_v1\IntelligentSolar_v1.csproj;arm
