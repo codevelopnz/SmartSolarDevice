@@ -25,7 +25,8 @@ namespace SmartSolar.Device
 
             _container
                 .PerRequest<ShellViewModel>()
-                .PerRequest<DeviceViewModel>();
+                .PerRequest<DeviceViewModel>()
+                .PerRequest<MainPageViewModel>();
 
             _eventAggregator = _container.GetInstance<IEventAggregator>();
         }

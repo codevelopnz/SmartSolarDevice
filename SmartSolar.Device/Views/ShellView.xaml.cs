@@ -4,6 +4,7 @@ namespace SmartSolar.Device.Views
 {
     public sealed partial class ShellView
     {
+
         public ShellView()
         {
             InitializeComponent();
@@ -13,5 +14,8 @@ namespace SmartSolar.Device.Views
         {
             NavigationView.IsPaneOpen = true;
         }
+
+
+
     }
 }

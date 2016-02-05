@@ -1,6 +1,7 @@
 ﻿using Windows.UI.Xaml.Controls;
 using Caliburn.Micro;
 using SmartSolar.Device.Messages;
+using SmartSolar.Device.Views;
 
 namespace SmartSolar.Device.ViewModels
 {
@@ -11,10 +12,13 @@ namespace SmartSolar.Device.ViewModels
         private INavigationService _navigationService;
         private bool _resume;
 
+		public MainPageView MainPage { get; set; }
+
         public ShellViewModel(WinRTContainer container, IEventAggregator eventAggregator)
         {
             _container = container;
             _eventAggregator = eventAggregator;
+			MainPage = new MainPageView();
         }
 
         protected override void OnActivate()
@@ -31,13 +35,22 @@ namespace SmartSolar.Device.ViewModels
         {
             _navigationService = _container.RegisterNavigationService(frame);
 
-            if (_resume)
-                _navigationService.ResumeState();
+	        if (_resume)
+	        {
+		        _navigationService.ResumeState();
+	        }
+	        else
+	        {
+				_navigationService.For<MainPageViewModel>().Navigate();
+		        
+	        }
+					;
         }
 
         public void ShowDevices()
         {
-            _navigationService.For<DeviceViewModel>().Navigate();
+//            _navigationService.For<DeviceViewModel>().Navigate();
+            _navigationService.For<MainPageViewModel>().Navigate();
         }
 
         public void Handle(SuspendStateMessage message)
