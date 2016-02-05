@@ -58,8 +58,8 @@ namespace IntelligentSolar_v1
         {
             this.InitializeComponent();
 
-            InitSPI();
-            InitGpio();
+//            InitSPI();
+//            InitGpio();
 
             InitSettings();
 
@@ -153,7 +153,7 @@ namespace IntelligentSolar_v1
 
         private void Timer_Tick(object sender, object e)
         {
-            DisplayTextBoxContents();
+//            DisplayTextBoxContents();
         }
 
 
@@ -336,7 +336,7 @@ namespace IntelligentSolar_v1
         private int readTemperature(byte buffer, TextBox tb)
         {
             writeBuffer[1] = buffer; // set to channel 0
-            SpiDisplay.TransferFullDuplex(writeBuffer, readBuffer);
+//            SpiDisplay.TransferFullDuplex(writeBuffer, readBuffer);
             int res = convertToInt(readBuffer);
             double temp = convertToCelcuis(res);
             var ohms = ((5.0 / (Convert.ToDouble(res) * (5.0 / 4095.0))) - 1.0) * 10000.0;
