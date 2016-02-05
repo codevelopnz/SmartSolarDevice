@@ -9,8 +9,12 @@ namespace SmartSolar.Device.Core.Services
 	/// <summary>
 	/// Single responsibility: to make decisions about whether the element should currently be on or off.
 	/// </summary>
-	public class ElementController
+	public class ElementStrategy
 	{
+		public bool ShouldElementBeOn()
+		{
+			return false;
+		}
 
 	}
 }

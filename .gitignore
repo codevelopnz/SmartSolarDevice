@@ -8,3 +8,8 @@ SmartSolar.Device/obj/
 SmartSolar.Device/SmartSolar.Device.csproj.user
 SmartSolar.Device.Core/obj/
 SmartSolar.Device.Tests/obj/
+.vs/
+SmartSolar.Device.Core/bin/
+*/project.lock.json
+SmartSolar.Device.Test/bin/
+SmartSolar.Device.Test/obj/
