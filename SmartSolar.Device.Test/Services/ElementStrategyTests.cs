@@ -14,49 +14,57 @@ namespace SmartSolar.Device.Test
 
 		public ElementStrategyTests()
 		{
-			_elementStrategy = new ElementStrategy();
 			_settings = new Settings();
+			_elementStrategy = new ElementStrategy(_settings);
 		}
 
 		[TestMethod]
 		public void TurnsOnBasedOnElementTemp()
 		{
 
-			_elementStrategy.ShouldElementBeOn(
-				new ElementStrategyParams
-				{
-					IsElementOn = false,
-					InletTemperature = _settings.ElectricityTarget - 1,
-					IsBoosting = false
-				}, _settings
-			).Should().BeTrue("because the current inlet temp is less than the electricity target");
+			var lowerTarget = _settings.ElectricityTarget - _settings.HysteresisFactorDegrees;
+			var upperTarget = _settings.ElectricityTarget + _settings.HysteresisFactorDegrees;
 
 			_elementStrategy.ShouldElementBeOn(
 				new ElementStrategyParams
 				{
-					IsElementOn = false,
-					InletTemperature = _settings.ElectricityTarget,
-					IsBoosting = false
-				}, _settings
-			).Should().BeTrue("because the current inlet temp is the same as than the electricity target");
+					InletTemperature = lowerTarget - 1,
+					IsElementCurrentlyOn = false
+				}
+			).Should().BeTrue("because the current inlet temp is less than the electricity target (less hysteresis factor)");
 
 			_elementStrategy.ShouldElementBeOn(
 				new ElementStrategyParams
 				{
-					IsElementOn = false,
-					InletTemperature = _settings.ElectricityTarget + 1,
-					IsBoosting = false
-				}, _settings)
-			.Should().BeFalse("because the current inlet temp is higher than the electricity target, and we're not boosting");
+					InletTemperature = lowerTarget,
+					IsElementCurrentlyOn = false
+				}
+			).Should().BeTrue("because the current inlet temp is the same as than the electricity target (less hysteresis factor)");
 
 			_elementStrategy.ShouldElementBeOn(
 				new ElementStrategyParams
 				{
-					IsElementOn = true,
-					InletTemperature = _settings.ElectricityTarget + 1,
-					IsBoosting = false
-				}, _settings)
-			.Should().BeTrue("because although the current inlet temp is above the target, we're boosting");
+					InletTemperature = (lowerTarget + upperTarget) / 2,
+					IsElementCurrentlyOn = true
+				}
+			).Should().BeTrue("because the current inlet temp is in the target range, and we're already on, so keep going!");
+
+			_elementStrategy.ShouldElementBeOn(
+				new ElementStrategyParams
+				{
+					InletTemperature = upperTarget + 1,
+					IsElementCurrentlyOn = true
+				}
+			).Should().BeFalse("because we turn off after we've exceeded the top of the target temp range (including hysteresis)");
+
+			_elementStrategy.ShouldElementBeOn(
+				new ElementStrategyParams
+				{
+					InletTemperature = (lowerTarget + upperTarget) / 2,
+					IsElementCurrentlyOn = false
+				}
+			).Should().BeFalse("because the current inlet temp is in the target range, but we're not already on, so we must be in the cooldown part of the hysteresis");
+
 		}
 	}
 }

@@ -15,8 +15,7 @@ namespace SmartSolar.Device.Core.Services
 	/// </summary>
 	public class ElementStrategyParams
 	{
-		public bool IsElementOn { get; set; }
-		public bool IsBoosting { get; set; }
+		public bool IsElementCurrentlyOn { get; set; }
 		public int InletTemperature { get; set; }
 		
 	}
@@ -25,21 +24,34 @@ namespace SmartSolar.Device.Core.Services
 	/// </summary>
 	public class ElementStrategy
 	{
+		private Settings _settings;
+
+		public ElementStrategy(Settings settings)
+		{
+			_settings = settings;
+		}
+
 		// should we be switching on the element (using electricity) at this point?
 		// a big assumption with putting this logic here is that both the pump and element are 
 		// allowed to be on at the same time.  My thinking is that this should be possible in the
 		// case of a frost condition or even when 'boosting' and solar is hot and ready to go.
-		public bool ShouldElementBeOn(ElementStrategyParams @params, Settings settings)
+		public bool ShouldElementBeOn(ElementStrategyParams @params)
 		{
-			if (@params.IsElementOn)
-			{
-				// Once it's on, it stays on - this can't be right, but it's my reading of the original code
-				return true;
-			}
 
-			// Not currently on - turn it on if the inlet temp is less than our target
-			// (This makes it currently a "dumb" controller)
-			return @params.InletTemperature <= settings.ElectricityTarget;
+			// Initially, just turn the element on if the inlet temp is less than the target 
+			// (less hysteresis value, so we don't "thrash" on and then off too quickly)
+			var lowerTarget = _settings.ElectricityTarget - _settings.HysteresisFactorDegrees;
+			var upperTarget = _settings.ElectricityTarget + _settings.HysteresisFactorDegrees;
+			if (@params.IsElementCurrentlyOn)
+			{
+				// Currently on - stay on until we reach the upper target (this is the hysteresis bit)
+				return (@params.InletTemperature <= upperTarget);
+			}
+			else
+			{
+				// Not currently on - turn on if we're below the lower target
+				return (@params.InletTemperature <= lowerTarget);
+			}
 
 			// Commented code from original MainPage - this is the "smarts" we'll need to implement.
 //			else

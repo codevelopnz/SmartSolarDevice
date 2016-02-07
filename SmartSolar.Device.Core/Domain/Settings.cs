@@ -14,6 +14,10 @@ namespace SmartSolar.Device.Core.Domain
 		public int ElectricityTarget = 55;
 		public int SolarTarget = 70;
 
+		// The temperature either side of a target temperature at which we'll turn things on and off 
+		// - to avoid "thrashing" where we turn a pump or element on/off repeatedly as the measured values varies just slightly either side of the target value.
+		public int HysteresisFactorDegrees = 1;
+
 		public int HoldOffTemperature = 40;
 		public int HoldOffMinutes = 480;
 
