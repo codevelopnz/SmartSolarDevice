@@ -22,8 +22,8 @@ namespace SmartSolar.Device.Test
 		public void TurnsOnBasedOnElementTemp()
 		{
 
-			var lowerTarget = _settings.ElectricityTarget - _settings.HysteresisFactorDegrees;
-			var upperTarget = _settings.ElectricityTarget + _settings.HysteresisFactorDegrees;
+			var lowerTarget = _settings.ElectricityTargetDegreesCelcius - _settings.HysteresisFactorDegreesCelcius;
+			var upperTarget = _settings.ElectricityTargetDegreesCelcius + _settings.HysteresisFactorDegreesCelcius;
 
 			_elementStrategy.ShouldElementBeOn(
 				new ElementStrategyParams

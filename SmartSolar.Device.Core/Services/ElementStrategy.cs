@@ -40,8 +40,8 @@ namespace SmartSolar.Device.Core.Services
 
 			// Initially, just turn the element on if the inlet temp is less than the target 
 			// (less hysteresis value, so we don't "thrash" on and then off too quickly)
-			var lowerTarget = _settings.ElectricityTarget - _settings.HysteresisFactorDegrees;
-			var upperTarget = _settings.ElectricityTarget + _settings.HysteresisFactorDegrees;
+			var lowerTarget = _settings.ElectricityTargetDegreesCelcius - _settings.HysteresisFactorDegreesCelcius;
+			var upperTarget = _settings.ElectricityTargetDegreesCelcius + _settings.HysteresisFactorDegreesCelcius;
 			if (@params.IsElementCurrentlyOn)
 			{
 				// Currently on - stay on until we reach the upper target (this is the hysteresis bit)
