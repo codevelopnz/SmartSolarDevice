@@ -110,8 +110,11 @@
     <Compile Include="Domain\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Domain\IAnalogToDigitalConvertor.cs" />
+    <Compile Include="Services\FakeOutputConnection.cs" />
+    <Compile Include="Services\GpioOutputConnection.cs" />
     <Compile Include="Services\MCP3208.cs" />
     <Compile Include="Services\ElementStrategy.cs" />
+    <Compile Include="Domain\IOutputConnection.cs" />
     <Compile Include="Services\PumpStrategy.cs" />
     <Compile Include="Services\ThermistorTemperatureReader.cs" />
     <EmbeddedResource Include="Properties\SmartSolar.Device.Core.rd.xml" />
