@@ -46,13 +46,25 @@ namespace SmartSolar.Device.Core.Services
 			_spiDevice = await SpiDevice.FromIdAsync(deviceInfo[0].Id, settings);
 		}
 
-		public BitArray ReadPin(int pinNumber)
+		public int ReadPin(int pinNumber)
 		{
-			if (_spiDevice == null) return null;
+			if (_spiDevice == null)
+			{
+				throw new Exception("SPI device not initialised");
+			}
+
 			// TODO: how do we set the writeBuffer from the pin? Paste a URL with some details of this chip in here.
 			_writeBuffer[1] = 0x40; 
 			 _spiDevice.TransferFullDuplex(_writeBuffer, _readBuffer);
-			return new BitArray(_readBuffer);
+			return ConvertBytesToInt(_readBuffer);
+		}
+
+		private static int ConvertBytesToInt(byte[] bytes)
+		{
+			int result = bytes[1] & 0x0F;
+			result <<= 8;
+			result += bytes[2];
+			return result;
 		}
 	}
 }

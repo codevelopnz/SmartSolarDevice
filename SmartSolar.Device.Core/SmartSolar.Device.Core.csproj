@@ -112,7 +112,7 @@
     <Compile Include="Domain\IAnalogToDigitalConvertor.cs" />
     <Compile Include="Services\MCP3208.cs" />
     <Compile Include="Services\ElementStrategy.cs" />
-    <Compile Include="Services\ThermistorReader.cs" />
+    <Compile Include="Services\ThermistorTemperatureReader.cs" />
     <EmbeddedResource Include="Properties\SmartSolar.Device.Core.rd.xml" />
   </ItemGroup>
   <ItemGroup>
