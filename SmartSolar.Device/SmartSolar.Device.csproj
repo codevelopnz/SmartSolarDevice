@@ -157,6 +157,12 @@
       <Name>Windows IoT Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SmartSolar.Device.Core\SmartSolar.Device.Core.csproj">
+      <Project>{B2BC8789-0160-49DF-B9B9-9457083C82F6}</Project>
+      <Name>SmartSolar.Device.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

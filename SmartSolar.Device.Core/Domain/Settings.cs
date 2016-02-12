@@ -25,5 +25,10 @@ namespace SmartSolar.Device.Core.Domain
 
 		public int FrostDegC = 4;
 
+
+		public int PumpGpioPin = 22;
+		public int ElementGpioPin = 27;
+		public int PumpLedPin = 17;
+		public int ElementLedPin = 18;
 	}
 }

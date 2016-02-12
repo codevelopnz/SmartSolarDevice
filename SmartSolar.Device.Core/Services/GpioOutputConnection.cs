@@ -9,7 +9,7 @@ namespace SmartSolar.Device.Core.Services
 	/// </summary>
 	public class GpioOutputConnection : PropertyChangedBase, IOutputConnection
 	{
-		private readonly GpioPin _gpioPin;
+		private GpioPin _gpioPin;
 		private bool? _state = null;
 
 		public bool? State
@@ -23,7 +23,7 @@ namespace SmartSolar.Device.Core.Services
 			}
 		}
 
-		public GpioOutputConnection(GpioPin gpioPin)
+		public void Configure(GpioPin gpioPin)
 		{
 			_gpioPin = gpioPin;
 		}
