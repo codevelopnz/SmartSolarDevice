@@ -10,8 +10,8 @@ namespace SmartSolar.Device.Core.Services
 	public class PumpStrategyParams
 	{
 		public bool IsPumpCurrentlyOn { get; set; }
-		public int RoofTemperatureDegreesCelcius { get; set; }
-		public int InletTemperatureDegreesCelcius { get; set; }
+		public int RoofDegC { get; set; }
+		public int InletDegC { get; set; }
 
 	}
 
@@ -34,18 +34,20 @@ namespace SmartSolar.Device.Core.Services
 		public bool ShouldPumpBeOn(PumpStrategyParams @params)
 		{
 			var shouldStartFrostPumping =
-				@params.RoofTemperatureDegreesCelcius < _settings.FrostTemperatureDegreesCelcius;
+				@params.RoofDegC < _settings.FrostDegC;
 
 			var shouldContinueFrostPumping = 
 				@params.IsPumpCurrentlyOn && 
-				(@params.RoofTemperatureDegreesCelcius < _settings.FrostTemperatureDegreesCelcius + _settings.HysteresisFactorDegreesCelcius);
+				(@params.RoofDegC < _settings.FrostDegC + _settings.HysteresisFactorDegC);
 
-			// TODO
-			var shouldPumpHotterRoofWater = false;
+			var isTankBelowSolarTarget = (@params.InletDegC <= _settings.SolarTargetDegC);
+			var isWorthStartingPump = (@params.RoofDegC > @params.InletDegC + _settings.PumpOnTemperatureDifference);
+			var shouldStartPumpingHotterRoofWater = !@params.IsPumpCurrentlyOn && isTankBelowSolarTarget && isWorthStartingPump;
+			
+			var isWorthContinuingPump = (@params.RoofDegC > @params.InletDegC + _settings.PumpOffTemperatureDifference);
+			var shouldContinuePumpingHotterRoofWater = @params.IsPumpCurrentlyOn && isWorthContinuingPump && isTankBelowSolarTarget;
 
-			return (shouldStartFrostPumping || shouldContinueFrostPumping || shouldPumpHotterRoofWater);
-
-
+			return (shouldStartFrostPumping || shouldContinueFrostPumping || shouldStartPumpingHotterRoofWater || shouldContinuePumpingHotterRoofWater);
 		}
 	}
 }

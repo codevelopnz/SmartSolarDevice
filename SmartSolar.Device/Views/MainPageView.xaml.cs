@@ -32,8 +32,8 @@ namespace SmartSolar.Device.Views
 		private bool priority = false;
 		private bool away = false;
 
-		private int pumpOnTemperature = 5; // these are normally higher....but for testing with just body temp on the thermisters
-		private int pumpOffTemperature = 2; // these are normally higher....but for testing with just body temp on the thermisters
+		private int pumpOnTemperatureDifference = 5; // these are normally higher....but for testing with just body temp on the thermisters
+		private int pumpOffTemperatureDifference = 2; // these are normally higher....but for testing with just body temp on the thermisters
 
 		private int electricityTarget = 55;
 		private int solarTarget = 70;
@@ -197,7 +197,7 @@ namespace SmartSolar.Device.Views
 				{
 					// if solar target hit or pump off condition met, switch off pump
 					if (inletTemperature >= solarTarget ||
-						roofTemperature - inletTemperature <= pumpOffTemperature)
+						roofTemperature - inletTemperature <= pumpOffTemperatureDifference)
 					{
 						//"turn pump off"
 						pinPump.Write(GpioPinValue.High);
@@ -230,7 +230,7 @@ namespace SmartSolar.Device.Views
 				// solar target, otherwise the pump cycle is too short before we topout and stop the
 				// pump
 				if (inletTemperature <= solarTarget - 2 &&
-					 roofTemperature - inletTemperature >= pumpOnTemperature)
+					 roofTemperature - inletTemperature >= pumpOnTemperatureDifference)
 				{
 					//"turn pump on"
 					pinPump.Write(GpioPinValue.Low);
