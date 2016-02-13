@@ -26,6 +26,7 @@ namespace SmartSolar.Device
 			_container = new WinRTContainer();
 			_container.RegisterWinRTServices();
 
+			_eventAggregator = _container.GetInstance<IEventAggregator>();
 			// Singletons
 			_container
 				.Singleton<Settings>()
@@ -35,10 +36,12 @@ namespace SmartSolar.Device
 			_container
 				.PerRequest<ShellViewModel>()
 				.PerRequest<DeviceViewModel>()
-				.PerRequest<MainPageViewModel>();
+				.PerRequest<MainPageViewModel>()
+				.PerRequest<ReadoutViewModel>();
 
 			var settings = _container.GetInstance<Settings>();
-			var shouldUseRealHardware = true;
+			// Use real hardware if we have a GpioController - else use fakeys
+			var shouldUseRealHardware = (GpioController.GetDefault() != null);
 
 			// Intercept the creation of any object, and configure it before it gets used.
 			// https://caliburnmicro.codeplex.com/wikipage?title=The%20Simple%20IoC%20Container

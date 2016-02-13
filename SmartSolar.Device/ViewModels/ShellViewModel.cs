@@ -41,7 +41,10 @@ namespace SmartSolar.Device.ViewModels
 			}
 			else
 			{
-				_navigationService.For<MainPageViewModel>().Navigate();
+//				_navigationService.For<MainPageViewModel>().Navigate();
+//				var vm = _navigationService.For<ReadoutViewModel>();
+//				vm.Navigate();
+				_navigationService.For<ReadoutViewModel>().Navigate();
 				
 			}
 					;
