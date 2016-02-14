@@ -14,11 +14,13 @@
 <!--	<ContentControl x:Name="MainPage"></ContentControl>-->
 	<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 		<SplitView x:Name="NavigationView" DisplayMode="Overlay" OpenPaneLength="120">
+			<!--  This is what you see when the hamburger menu is clicked-->
 			<SplitView.Pane>
 				<StackPanel Background="{ThemeResource AccentBrush}">
 					<Button x:Name="ShowDevices" Content="Device Specific Views" Margin="24" />
 				</StackPanel>
 			</SplitView.Pane>
+			<!-- This is the hamburger menu-->
 			<SplitView.Content>
 				<Grid>
 					<Frame cm:Message.Attach="[Event Loaded] = [SetupNavigationService($source)]" DataContext="{x:Null}" />

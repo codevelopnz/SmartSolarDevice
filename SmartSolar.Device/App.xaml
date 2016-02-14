@@ -13,7 +13,6 @@
 <!--			<SolidColorBrush x:Key="ssText" Color="AntiqueWhite" />-->
 			<SolidColorBrush x:Key="ssLineColor" Color="#415168" />
 
-			<system:Int32 x:Key="ssBaseFontSize">16</system:Int32>
 			<FontWeight x:Key="ssBaseFontWeight">300</FontWeight>
 			<FontWeight x:Key="ssHeavyFontWeight">700</FontWeight>
 
@@ -26,17 +25,17 @@
 			<!--			* a style with no name, but targeting that type of control. Controls with no style information set on them will get this.-->
 
 			<Style TargetType="Window">
-				<!--				<Setter Property="FontSize" Value="{StaticResource ssBaseFontSize}"/>-->
 			</Style>
 			<!--Set the base font for every control in the entire app-->
 			<!--(Still need the individual styles below to be "BasedOn" this) -->
 			<Style  TargetType="Control" x:Key="baseStyle">
-				<Setter Property="FontSize" Value="{StaticResource ssBaseFontSize}"/>
 				<Setter Property="FontWeight" Value="{StaticResource ssBaseFontWeight}"/>
 			</Style>
 			<!--	Pages -->
 			<Style TargetType="Page" BasedOn="{StaticResource baseStyle}" x:Key="basePageStyle">
-				<Setter Property="Background" Value="{StaticResource ssBackground}"/>
+				<!-- Offset all pages from the left, to make room for the hamburger control-->
+				<Setter Property="Margin" Value="{StaticResource ssPageMargin}"/>
+<!--				<Setter Property="Background" Value="{StaticResource ssBackground}"/>-->
 			</Style>
 			<!--	Buttons -->
 			<Style TargetType="Button" BasedOn="{StaticResource baseStyle}" x:Key="baseButtonStyle">
@@ -51,8 +50,6 @@
 			<Style TargetType="ComboBox" BasedOn="{StaticResource baseStyle}" x:Key="baseComboBoxStyle"></Style>
 			<!--	TextBlocks don't inherit from Control, so set their style manually-->
 			<Style TargetType="TextBlock" x:Key="baseTextBlockStyle">
-				<Setter Property="FontFamily" Value="{StaticResource ssFontFamily}"/>
-				<Setter Property="FontSize" Value="{StaticResource ssBaseFontSize}"/>
 			</Style>
 			<!-- All stackpanels -->
 			<Style TargetType="StackPanel" x:Key="baseStackPanelStyle">
@@ -72,6 +69,7 @@
 			<system:Double x:Key="ssFullMarginSize">30</system:Double>
 			<system:Double x:Key="ssMidMarginSize">15</system:Double>
 			<system:Double x:Key="ssSmallMarginSize">5</system:Double>
+			<Thickness x:Key="ssPageMargin">100,30,30,30</Thickness>
 			<Thickness x:Key="ssFullMargin">30,30,30,30</Thickness>
 <!--			<Thickness x:Key="ssFullMargin" >{StaticResource ssFullMarginSize},{StaticResource ssFullMarginSize},{StaticResource ssFullMarginSize},{StaticResource ssFullMarginSize}</Thickness>-->
 			<!--			<Thickness x:Key="ssFullMarginNoBottom" Left="{StaticResource ssFullMarginSize}" Right="{StaticResource ssFullMarginSize}" Top="{StaticResource ssFullMarginSize}"></Thickness>-->
@@ -99,9 +97,13 @@
 			<!-- ============= Specific styles ======================================================= -->
 			<!-- To assign one of these styles to a control: Style="{StaticResource PrimaryButton}"-->
 
+			<!-- PageHeading -->
+			<Style TargetType="TextBlock" x:Key="PageHeading" BasedOn="{StaticResource baseTextBlockStyle}">
+				<Setter Property="FontSize" Value="50"/>
+			</Style>
 			<!-- Label on top of a field, e.g. for the knee tracker-->
 			<Style TargetType="TextBlock" x:Key="TopLabel" BasedOn="{StaticResource baseTextBlockStyle}">
-				<Setter Property="FontSize" Value="{StaticResource ssSmallFontSize}"/>
+				<Setter Property="FontSize" Value="12"/>
 			</Style>
 			<!-- Text boxes for a form field, with a TopLabel on top questionnaire -->
 			<Style TargetType="TextBox" x:Key="FormFieldTextBox" BasedOn="{StaticResource baseTextBoxStyle}">

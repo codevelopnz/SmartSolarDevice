@@ -10,7 +10,8 @@
     d:DesignWidth="400">
 
     <StackPanel>
-		<TextBlock Margin="{StaticResource ssFullMargin}">Hello</TextBlock>
+		<TextBlock Margin="100,0,0,0" Style="{StaticResource PageHeading}">Readout</TextBlock>
+		<TextBlock>Hello</TextBlock>
 		<TextBlock x:Name="PumpStateText">Hello</TextBlock>
 
     </StackPanel>
