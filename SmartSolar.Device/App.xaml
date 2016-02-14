@@ -1,8 +1,113 @@
 ﻿<cm:CaliburnApplication
-    x:Class="SmartSolar.Device.App"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:cm="using:Caliburn.Micro"
-    RequestedTheme="Light">
+	x:Class="SmartSolar.Device.App"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:cm="using:Caliburn.Micro"
+	xmlns:system="using:System"
+	RequestedTheme="Dark">
+	<Application.Resources>
+		<ResourceDictionary>
+
+			<!-- ============= Basic constants ======================================================= -->
+<!--			<SolidColorBrush x:Key="ssBackground" Color="Black" />-->
+<!--			<SolidColorBrush x:Key="ssText" Color="AntiqueWhite" />-->
+			<SolidColorBrush x:Key="ssLineColor" Color="#415168" />
+
+			<system:Int32 x:Key="ssBaseFontSize">16</system:Int32>
+			<FontWeight x:Key="ssBaseFontWeight">300</FontWeight>
+			<FontWeight x:Key="ssHeavyFontWeight">700</FontWeight>
+
+
+			<!-- ============= Base styles======================================================= -->
+			<!--Set the base font for the entire app (doesn't affect the design-time editor tho)-->
+			<!--	http://stackoverflow.com/a/3145772/84898-->
+			<!--	For each type of control, we create:-->
+			<!--			* a style with a name (e.g. baseLabelStyle). Other more specific styles can be BasedOn this.-->
+			<!--			* a style with no name, but targeting that type of control. Controls with no style information set on them will get this.-->
+
+			<Style TargetType="Window">
+				<!--				<Setter Property="FontSize" Value="{StaticResource ssBaseFontSize}"/>-->
+			</Style>
+			<!--Set the base font for every control in the entire app-->
+			<!--(Still need the individual styles below to be "BasedOn" this) -->
+			<Style  TargetType="Control" x:Key="baseStyle">
+				<Setter Property="FontSize" Value="{StaticResource ssBaseFontSize}"/>
+				<Setter Property="FontWeight" Value="{StaticResource ssBaseFontWeight}"/>
+			</Style>
+			<!--	Pages -->
+			<Style TargetType="Page" BasedOn="{StaticResource baseStyle}" x:Key="basePageStyle">
+				<Setter Property="Background" Value="{StaticResource ssBackground}"/>
+			</Style>
+			<!--	Buttons -->
+			<Style TargetType="Button" BasedOn="{StaticResource baseStyle}" x:Key="baseButtonStyle">
+				<!--				<Setter Property="Border.BorderBrush" Value="{StaticResource ssLineColor}"/>-->
+				<Setter Property="Margin" Value="10,10,10,10"/>
+			</Style>
+			<!-- Text boxes -->
+			<Style TargetType="TextBox" BasedOn="{StaticResource baseStyle}" x:Key="baseTextBoxStyle"></Style>
+			<!-- List views -->
+			<Style TargetType="ListView" BasedOn="{StaticResource baseStyle}" x:Key="baseListViewStyle"></Style>
+			<!-- Combo boxes -->
+			<Style TargetType="ComboBox" BasedOn="{StaticResource baseStyle}" x:Key="baseComboBoxStyle"></Style>
+			<!--	TextBlocks don't inherit from Control, so set their style manually-->
+			<Style TargetType="TextBlock" x:Key="baseTextBlockStyle">
+				<Setter Property="FontFamily" Value="{StaticResource ssFontFamily}"/>
+				<Setter Property="FontSize" Value="{StaticResource ssBaseFontSize}"/>
+			</Style>
+			<!-- All stackpanels -->
+			<Style TargetType="StackPanel" x:Key="baseStackPanelStyle">
+				<Setter Property="Background" Value="Transparent"/>
+			</Style>
+			<Style TargetType="StackPanel" BasedOn="{StaticResource baseStackPanelStyle}"/>
+			<!-- All grids -->
+			<Style TargetType="Grid" x:Key="baseGridStyle">
+				<Setter Property="Background" Value="Transparent"/>
+			</Style>
+			<Style TargetType="Grid" BasedOn ="{StaticResource baseGridStyle}"/>
+
+			<!--Use these for margins with the margin attribute direction, e.g. Margin="{StaticResource ssFullMarginLeftTop}"-->
+			<!--	Full margin = Roughly the size of the letter o in the Velogicfit logo, distance between major elements in the app e.g. the logo and the ident block and whatever is below that -->
+			<!--	Mid margin = -->
+			<!--	Small margin = tightish margin between text and a border, e.g. inside the column header labels on step08 -->
+			<system:Double x:Key="ssFullMarginSize">30</system:Double>
+			<system:Double x:Key="ssMidMarginSize">15</system:Double>
+			<system:Double x:Key="ssSmallMarginSize">5</system:Double>
+			<Thickness x:Key="ssFullMargin">30,30,30,30</Thickness>
+<!--			<Thickness x:Key="ssFullMargin" >{StaticResource ssFullMarginSize},{StaticResource ssFullMarginSize},{StaticResource ssFullMarginSize},{StaticResource ssFullMarginSize}</Thickness>-->
+			<!--			<Thickness x:Key="ssFullMarginNoBottom" Left="{StaticResource ssFullMarginSize}" Right="{StaticResource ssFullMarginSize}" Top="{StaticResource ssFullMarginSize}"></Thickness>-->
+			<!--			<Thickness x:Key="ssFullMarginTop" Top="{StaticResource ssFullMarginSize}"></Thickness>-->
+			<!--			<Thickness x:Key="ssFullMarginLeft" Left="{StaticResource ssFullMarginSize}"></Thickness>-->
+			<!--			<Thickness x:Key="ssFullMarginLeftTop" Top="{StaticResource ssFullMarginSize}" Left="{StaticResource ssFullMarginSize}"></Thickness>-->
+			<!--			<Thickness x:Key="ssFullMarginLeftTopRight" Right="{StaticResource ssFullMarginSize}" Top="{StaticResource ssFullMarginSize}" Left="{StaticResource ssFullMarginSize}"></Thickness>-->
+			<!--			<Thickness x:Key="ssFullMarginLeftRight" Left="{StaticResource ssFullMarginSize}" Right="{StaticResource ssFullMarginSize}"></Thickness>-->
+			<!--			<Thickness x:Key="ssFullMarginLeftRightSmallMarginTop" Left="{StaticResource ssFullMarginSize}" Right="{StaticResource ssFullMarginSize}" Top="{StaticResource ssSmallMarginSize}"></Thickness>-->
+			<!--			<Thickness x:Key="ssMidMargin" Top="{StaticResource ssMidMarginSize}" Left="{StaticResource ssMidMarginSize}" Right="{StaticResource ssMidMarginSize}" Bottom="{StaticResource ssMidMarginSize}"></Thickness>-->
+			<!--			<Thickness x:Key="ssMidMarginTop" Top="{StaticResource ssMidMarginSize}"></Thickness>-->
+			<!--			<Thickness x:Key="ssMidMarginBottom" Bottom="{StaticResource ssMidMarginSize}"></Thickness>-->
+			<!--			<Thickness x:Key="ssMidMarginLeftTop" Top="{StaticResource ssMidMarginSize}" Left="{StaticResource ssMidMarginSize}"></Thickness>-->
+			<!--			<Thickness x:Key="ssMidMarginLeftRight" Left="{StaticResource ssMidMarginSize}" Right="{StaticResource ssMidMarginSize}"></Thickness>-->
+			<!--			<Thickness x:Key="ssMidMarginLeftTopRight" Top="{StaticResource ssMidMarginSize}" Left="{StaticResource ssMidMarginSize}" Right="{StaticResource ssMidMarginSize}"></Thickness>-->
+			<!--			<Thickness x:Key="ssMidMarginLeft" Left="{StaticResource ssMidMarginSize}"></Thickness>-->
+			<!--			<Thickness x:Key="ssSmallMarginLeft" Left="{StaticResource ssSmallMarginSize}"></Thickness>-->
+			<!--			<Thickness x:Key="ssSmallMarginRight" Right="{StaticResource ssSmallMarginSize}"></Thickness>-->
+			<!--			<Thickness x:Key="ssSmallMarginTop" Top="{StaticResource ssSmallMarginSize}"></Thickness>-->
+			<!--			<Thickness x:Key="ssSmallMarginLeftTopBottom" Left="{StaticResource ssSmallMarginSize}" Top="{StaticResource ssSmallMarginSize}"  Bottom="{StaticResource ssSmallMarginSize}"></Thickness>-->
+			<!--			<Thickness x:Key="ssSmallMargin" Left="{StaticResource ssSmallMarginSize}" Right="{StaticResource ssSmallMarginSize}" Top="{StaticResource ssSmallMarginSize}" Bottom="{StaticResource ssSmallMarginSize}"></Thickness>-->
+			<!--			<Thickness x:Key="ssNoMargin" Top="0" Left="0" Bottom="0" Right="0"></Thickness>-->
+
+
+			<!-- ============= Specific styles ======================================================= -->
+			<!-- To assign one of these styles to a control: Style="{StaticResource PrimaryButton}"-->
+
+			<!-- Label on top of a field, e.g. for the knee tracker-->
+			<Style TargetType="TextBlock" x:Key="TopLabel" BasedOn="{StaticResource baseTextBlockStyle}">
+				<Setter Property="FontSize" Value="{StaticResource ssSmallFontSize}"/>
+			</Style>
+			<!-- Text boxes for a form field, with a TopLabel on top questionnaire -->
+			<Style TargetType="TextBox" x:Key="FormFieldTextBox" BasedOn="{StaticResource baseTextBoxStyle}">
+				<Setter Property="VerticalContentAlignment" Value="Center"/>
+			</Style>
+		</ResourceDictionary>
+	</Application.Resources>
 
 </cm:CaliburnApplication>
