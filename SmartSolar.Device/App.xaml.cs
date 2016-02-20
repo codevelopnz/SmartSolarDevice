@@ -36,6 +36,7 @@ namespace SmartSolar.Device
 			// Singletons
 			_kernel.Bind<Settings>().ToSelf().InSingletonScope();
 			_kernel.Bind<PumpController>().ToSelf().InSingletonScope();
+			_kernel.Bind<Hardware>().ToSelf().InSingletonScope();
 			var settings = _kernel.Get<Settings>();
 
 			// Use real hardware if we have a GpioController - else use fakeys
@@ -67,6 +68,11 @@ namespace SmartSolar.Device
 				// Use fake inputs / outputs where requested
 				_kernel.Bind<IOutputConnection>().To<FakeOutputConnection>();
 				_kernel.Bind<ITemperatureReader>().To<FakeTemperatureReader>();
+				// Setup some initial values for fake readings
+				var hardware = _kernel.Get<Hardware>();
+				((FakeTemperatureReader) hardware.RoofTemperatureReader).FakeTemperatureDegC = 50;
+				((FakeTemperatureReader) hardware.InletTemperatureReader).FakeTemperatureDegC = 40;
+				((FakeTemperatureReader) hardware.TankTemperatureReader).FakeTemperatureDegC = 30;
 			}
 
 			// Kick off the poller

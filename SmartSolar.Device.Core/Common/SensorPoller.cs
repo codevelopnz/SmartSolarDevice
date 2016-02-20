@@ -33,9 +33,11 @@ namespace SmartSolar.Device.Core.Common
 		{
 			new TaskFactory().StartNew(async () =>
 			{
-				pollOnce();
-				_eventAggregator.PublishOnUIThread(new SensorsWereRead());
-				await Task.Delay(TimeSpan.FromSeconds(1));
+				while(true) {
+					pollOnce();
+					_eventAggregator.PublishOnUIThread(new SensorsWereRead());
+					await Task.Delay(TimeSpan.FromSeconds(1));
+				}
 			});
 
 		}

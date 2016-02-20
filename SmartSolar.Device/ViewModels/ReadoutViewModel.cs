@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using SmartSolar.Device.Core.Common;
 using SmartSolar.Device.Core.Pump;
+using SmartSolar.Device.Core.Sensor;
 
 namespace SmartSolar.Device.ViewModels
 {
@@ -40,9 +41,17 @@ namespace SmartSolar.Device.ViewModels
 			// When the PumpController changes state, so should our text, so notify of that change.
 			PumpController.PropertyChanged +=
 				(s, e) => { if (e.PropertyName == nameof(PumpController.IsPumping)) NotifyOfPropertyChange(() => PumpStateText); };
-			Hardware.ElementOutputConnection.PropertyChanged += (s, e) => NotifyOfPropertyChange(() => nameof(ElementStateText));
-			Hardware.RoofTemperatureReader.PropertyChanged += (s, e) => NotifyOfPropertyChange(() => nameof(ElementStateText));
+			Hardware.ElementOutputConnection.PropertyChanged += (s, e) => NotifyOfPropertyChange(() => ElementStateText);
+			Hardware.RoofTemperatureReader.PropertyChanged += (s, e) => NotifyOfPropertyChange(() => RoofDegC);
+		}
 
+		public void RoofDegCPlus()
+		{
+			var fake = (Hardware.RoofTemperatureReader as FakeTemperatureReader);
+			if (fake != null)
+			{
+				fake.FakeTemperatureDegC += 3;
+			}
 		}
 	}
 }

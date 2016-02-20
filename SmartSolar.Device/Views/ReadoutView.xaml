@@ -16,7 +16,11 @@
 <!--TODO: Add +/- buttons or a slider or something to allow input of these if they're fakies-->
 <!--... but no stackpanel in UWP? Winrtxamltoolkit-->
 		<TextBlock FontSize="10">ROOF</TextBlock>
+  <StackPanel Orientation="Horizontal">
+	  
 		<TextBlock FontSize="30" x:Name="RoofDegC"></TextBlock> 
+		  <Button Name="RoofDegCPlus">+</Button>
+  </StackPanel>
 		<TextBlock FontSize="10">INLET</TextBlock>
 		<TextBlock FontSize="30" x:Name="InletDegC"></TextBlock> 
 		<TextBlock FontSize="10">TANK</TextBlock>
