@@ -12,6 +12,12 @@
 	<StackPanel>
 <!--  Heading-->
 		<TextBlock Margin="100,0,0,0" Style="{StaticResource PageHeading}">Readout</TextBlock>
+		<TextBlock FontSize="10">ROOF</TextBlock>
+		<TextBlock FontSize="30" x:Name="RoofDegC"></TextBlock> 
+		<TextBlock FontSize="10">INLET</TextBlock>
+		<TextBlock FontSize="30" x:Name="InletDegC"></TextBlock> 
+		<TextBlock FontSize="10">TANK</TextBlock>
+		<TextBlock FontSize="30" x:Name="TankDegC"></TextBlock> 
 		<TextBlock FontSize="10">PUMP</TextBlock>
 		<TextBlock FontSize="30" x:Name="PumpStateText">Off</TextBlock> 
 		<TextBlock FontSize="10">ELEMENT</TextBlock>

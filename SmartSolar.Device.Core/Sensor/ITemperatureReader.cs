@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SmartSolar.Device.Core.Sensor
 {
-	public interface ITemperatureReader
+	public interface ITemperatureReader: INotifyPropertyChanged
 	{
-		double ReadTemperatureCelcius();
+		double? LastTemperatureDegC { get; }
+		double ReadTemperatureDegC();
 	}
 }

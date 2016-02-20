@@ -1,4 +1,5 @@
 ﻿using System;
+using Caliburn.Micro;
 using SmartSolar.Device.Core.Common;
 
 namespace SmartSolar.Device.Core.Sensor
@@ -6,9 +7,10 @@ namespace SmartSolar.Device.Core.Sensor
 	/// <summary>
 	/// Single responsibility: read the current temperature of a thermistor connected via an ADC.
 	/// </summary>
-	public class ThermistorTemperatureReader: ITemperatureReader
+	public class ThermistorTemperatureReader: PropertyChangedBase, ITemperatureReader
 	{
 		private IAnalogToDigitalConvertor _adc;
+		private double? _lastTemperatureDegC;
 
 		public ThermistorTemperatureReader(IAnalogToDigitalConvertor adc)
 		{
@@ -16,10 +18,23 @@ namespace SmartSolar.Device.Core.Sensor
 		}
 
 		public int PinNumber { get; set; }
-		public double ReadTemperatureCelcius()
+
+		public double? LastTemperatureDegC
+		{
+			get { return _lastTemperatureDegC; }
+			set
+			{
+				if (value.Equals(_lastTemperatureDegC)) return;
+				_lastTemperatureDegC = value;
+				NotifyOfPropertyChange(() => LastTemperatureDegC);
+			}
+		}
+
+		public double ReadTemperatureDegC()
 		{
 			var adcReading = _adc.ReadPin(PinNumber);
-			return ConvertAdcReadingToDegreesCelcius(adcReading);
+			LastTemperatureDegC = ConvertAdcReadingToDegreesCelcius(adcReading);
+			return LastTemperatureDegC.Value;
 		}
 
 		public double ConvertAdcReadingToDegreesCelcius(int adcReading)

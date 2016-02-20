@@ -23,6 +23,12 @@ namespace SmartSolar.Device.ViewModels
 			? (Hardware.ElementOutputConnection.State.Value ? "On" : "Off") 
 			: "?";
 
+		public string RoofDegC => Hardware.RoofTemperatureReader.LastTemperatureDegC.HasValue
+			? Hardware.RoofTemperatureReader.LastTemperatureDegC.ToString()
+			: "?";
+
+
+
 		public ReadoutViewModel(
 			PumpController pumpController,
 			Hardware hardware
@@ -35,6 +41,7 @@ namespace SmartSolar.Device.ViewModels
 			PumpController.PropertyChanged +=
 				(s, e) => { if (e.PropertyName == nameof(PumpController.IsPumping)) NotifyOfPropertyChange(() => PumpStateText); };
 			Hardware.ElementOutputConnection.PropertyChanged += (s, e) => NotifyOfPropertyChange(() => nameof(ElementStateText));
+			Hardware.RoofTemperatureReader.PropertyChanged += (s, e) => NotifyOfPropertyChange(() => nameof(ElementStateText));
 
 		}
 	}
