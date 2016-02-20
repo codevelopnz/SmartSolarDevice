@@ -27,7 +27,6 @@ namespace SmartSolar.Device
 			_container.RegisterWinRTServices();
 
 			_eventAggregator = _container.GetInstance<IEventAggregator>();
-			_container.
 			// Singletons
 			_container
 				.Singleton<Settings>()
@@ -52,12 +51,12 @@ namespace SmartSolar.Device
 
 				// Create an output connection on top of the pins
 				_container.PerRequest<GpioOutputConnection>();
-				var pumpConnection = _container.GetInstance<GpioOutputConnection>();
+				var pumpConnection = _container.GetInstance<GpioPumpOutputConnection>();
 				pumpConnection.Configure(pumpGpioPin);
 
 				// Use these connections where requested
 //				pump.Connection = pumpConnection;
-				_container.RegisterInstance(typeof (IPumpOutputConnection), null, pumpConnection);
+				_container.Instance<IPumpOutputConnection>(pumpConnection);
 			} else {
 				// Register some fake connectors
 				_container.PerRequest<FakeOutputConnection>();

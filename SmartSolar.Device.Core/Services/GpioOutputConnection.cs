@@ -5,7 +5,7 @@ using SmartSolar.Device.Core.Domain;
 namespace SmartSolar.Device.Core.Services
 {
 	/// <summary>
-	/// Single responsibility: represent a physical connection to a pump, via a GPIO pin
+	/// Single responsibility: represent a physical output connection to something, via a GPIO pin
 	/// </summary>
 	public class GpioOutputConnection : PropertyChangedBase, IOutputConnection
 	{
@@ -17,8 +17,10 @@ namespace SmartSolar.Device.Core.Services
 			get { return _state; } 
 			set
 			{
+				
 				if (value == _state) return;
 				_state = value;
+				_gpioPin.Write(GpioPinValue.High);
 				NotifyOfPropertyChange(() => State);
 			}
 		}
