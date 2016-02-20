@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="Domain\GpioPumpOutputConnection.cs" />
     <Compile Include="Domain\IPumpOutputConnection.cs" />
+    <Compile Include="Services\FakePumpOutputConnection.cs" />
     <Compile Include="Services\PumpController.cs" />
     <Compile Include="Domain\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

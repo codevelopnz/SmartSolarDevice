@@ -4,6 +4,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Devices.Gpio;
 using Caliburn.Micro;
+using Ninject;
 using SmartSolar.Device.Core.Domain;
 using SmartSolar.Device.Core.Services;
 using SmartSolar.Device.Messages;
@@ -15,6 +16,7 @@ namespace SmartSolar.Device
 	{
 		private WinRTContainer _container;
 		private IEventAggregator _eventAggregator;
+		private IKernel _kernel;
 
 		public App()
 		{
@@ -23,23 +25,39 @@ namespace SmartSolar.Device
 
 		protected override void Configure()
 		{
+			_kernel = new Ninject.StandardKernel();
+
+			_kernel.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
+			_eventAggregator = _kernel.Get<IEventAggregator>();
+
 			_container = new WinRTContainer();
 			_container.RegisterWinRTServices();
 
-			_eventAggregator = _container.GetInstance<IEventAggregator>();
+//			_eventAggregator = _container.GetInstance<IEventAggregator>();
 			// Singletons
-			_container
-				.Singleton<Settings>()
-				.Singleton<PumpController>();
+//			_container
+//				.Singleton<Settings>()
+//				.Singleton<PumpController>();
+			_kernel.Bind<Settings>().ToSelf().InSingletonScope();
+			_kernel.Bind<PumpController>().ToSelf().InSingletonScope();
+			var settings = _kernel.Get<Settings>();
 
 			// Per-requests
-			_container
-				.PerRequest<ShellViewModel>()
-				.PerRequest<DeviceViewModel>()
-				.PerRequest<MainPageViewModel>()
-				.PerRequest<ReadoutViewModel>();
+//			_container
+//				.PerRequest<ShellViewModel>()
+//				.PerRequest<DeviceViewModel>()
+//				.PerRequest<MainPageViewModel>()
+//				.PerRequest<ReadoutViewModel>();
 
-			var settings = _container.GetInstance<Settings>();
+
+			// Workaround for Caliburn Micro being dumb about CI, TODO link to explanation about how it doesn't like to instantiate classes where the ancestor has a public controller. Switch to ninject after all?
+//			PumpController singletonPumpController;
+//			_container.Handler<PumpController>(c => {
+//				if (singletonPumpController != null) return singletonPumpController; 
+//				)
+//			})
+//				>()
+//				.
 			// Use real hardware if we have a GpioController - else use fakeys
 			var shouldUseRealHardware = (GpioController.GetDefault() != null);
 
@@ -56,13 +74,14 @@ namespace SmartSolar.Device
 
 				// Use these connections where requested
 //				pump.Connection = pumpConnection;
-				_container.Instance<IPumpOutputConnection>(pumpConnection);
+				_kernel.Bind<IPumpOutputConnection>().ToConstant(pumpConnection);
 			} else {
 				// Register some fake connectors
-				_container.PerRequest<FakeOutputConnection>();
+//				_container.PerRequest<FakeOutputConnection>();
 
-				var fakePumpConnection = _container.GetInstance<FakeOutputConnection>();
-				_container.RegisterInstance(typeof (IPumpOutputConnection), null, fakePumpConnection);
+//				var fakePumpConnection = _kernel.Get<FakeOutputConnection>();
+//				_container.RegisterInstance(typeof (IPumpOutputConnection), null, fakePumpConnection);
+				_kernel.Bind<IPumpOutputConnection>().To<FakePumpOutputConnection>();
 			}
 
 			// Intercept the creation of any object, and configure it before it gets used.
@@ -118,17 +137,20 @@ namespace SmartSolar.Device
 
 		protected override object GetInstance(Type service, string key)
 		{
-			return _container.GetInstance(service, key);
+//			return _container.GetInstance(service, key);
+			return _kernel.Get(service);//, key);
 		}
 
 		protected override IEnumerable<object> GetAllInstances(Type service)
 		{
-			return _container.GetAllInstances(service);
+//			return _container.GetAllInstances(service);
+			return _kernel.GetAll(service);
 		}
 
 		protected override void BuildUp(object instance)
 		{
-			_container.BuildUp(instance);
+			_kernel.Inject(instance);
+//			_container.BuildUp(instance);
 		}
 	}
 }
