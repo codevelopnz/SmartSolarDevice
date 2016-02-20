@@ -12,6 +12,9 @@
 	<StackPanel>
 <!--  Heading-->
 		<TextBlock Margin="100,0,0,0" Style="{StaticResource PageHeading}">Readout</TextBlock>
+<!--  Inputs-->
+<!--TODO: Add +/- buttons or a slider or something to allow input of these if they're fakies-->
+<!--... but no stackpanel in UWP? Winrtxamltoolkit-->
 		<TextBlock FontSize="10">ROOF</TextBlock>
 		<TextBlock FontSize="30" x:Name="RoofDegC"></TextBlock> 
 		<TextBlock FontSize="10">INLET</TextBlock>

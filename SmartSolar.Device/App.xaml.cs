@@ -69,8 +69,10 @@ namespace SmartSolar.Device
 				_kernel.Bind<ITemperatureReader>().To<FakeTemperatureReader>();
 			}
 
+			// Kick off the poller
+			var sensorPoller = _kernel.Get<SensorPoller>();
+			sensorPoller.PollContinuously();
 		}
-
 
 		protected override void OnLaunched(LaunchActivatedEventArgs args)
 		{
