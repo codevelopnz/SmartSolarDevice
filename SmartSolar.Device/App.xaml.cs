@@ -73,6 +73,8 @@ namespace SmartSolar.Device
 				((FakeTemperatureReader) hardware.RoofTemperatureReader).FakeTemperatureDegC = 50;
 				((FakeTemperatureReader) hardware.InletTemperatureReader).FakeTemperatureDegC = 40;
 				((FakeTemperatureReader) hardware.TankTemperatureReader).FakeTemperatureDegC = 30;
+				((FakeOutputConnection) hardware.PumpOutputConnection).State = false;
+				((FakeOutputConnection) hardware.ElementOutputConnection).State = false;
 			}
 
 			// Kick off the poller

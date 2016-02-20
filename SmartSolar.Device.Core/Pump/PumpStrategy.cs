@@ -10,8 +10,8 @@ namespace SmartSolar.Device.Core.Pump
 	public class PumpStrategyParams
 	{
 		public bool IsPumpCurrentlyOn { get; set; }
-		public int RoofDegC { get; set; }
-		public int InletDegC { get; set; }
+		public double RoofDegC { get; set; }
+		public double InletDegC { get; set; }
 
 	}
 

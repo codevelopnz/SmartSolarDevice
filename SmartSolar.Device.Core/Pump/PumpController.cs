@@ -1,18 +1,33 @@
 ﻿using Caliburn.Micro;
 using SmartSolar.Device.Core.Common;
+using SmartSolar.Device.Core.Messages;
 
 namespace SmartSolar.Device.Core.Pump
 {
 	/// <summary>
 	/// Single responsibility: control the pump, i.e. tell it to turn on or off depending on the conditions.
 	/// </summary>
-	public class PumpController: PropertyChangedBase
+	public class PumpController
+		: PropertyChangedBase
+		, IHandle<SensorsWereRead>
 	{
+		private readonly IEventAggregator _eventAggregator;
 		private readonly Hardware _hardware;
+		private readonly PumpStrategy _pumpStrategy;
+		private readonly PumpStrategyParams _pumpStrategyParams;
 
-		public PumpController(Hardware hardware)
+		public PumpController(
+			IEventAggregator eventAggregator,
+			Hardware hardware,
+			PumpStrategy pumpStrategy,
+			PumpStrategyParams pumpStrategyParams
+		)
 		{
+			_eventAggregator = eventAggregator;
+			_eventAggregator.Subscribe(this);
 			_hardware = hardware;
+			_pumpStrategy = pumpStrategy;
+			_pumpStrategyParams = pumpStrategyParams;
 			// When the output changes state, notify our watchers that our IsPumping has changed
 			hardware.PumpOutputConnection.PropertyChanged += (s, e) =>
 			{
@@ -23,34 +38,23 @@ namespace SmartSolar.Device.Core.Pump
 			};
 		}
 
-//		public IOutputConnection Connection
-//		{
-//			get { return _connection; }
-//			set
-//			{
-//				if (Equals(value, _connection)) return;
-//				_connection = value;
-//				// When the connection is set, subscribe to the property change, so we can set our IsPumping from it.
-//				Connection.PropertyChanged += (s, e) =>
-//				{
-//					if (e.PropertyName == nameof(Connection.State))
-//					{
-//						// Tell any of our observers that they may wish to re-get the value of IsPumping, which will pull that value from the connection.state
-//						NotifyOfPropertyChange(() => IsPumping);
-//					}
-//				};
-//				// And notify once now, to set the initial value
-//				NotifyOfPropertyChange(() => IsPumping);
-//				// Also notify that the connection itself has changed, in case anyone cares
-//				NotifyOfPropertyChange(() => Connection);
-//			}
-//		}
 
 		// We expose an IsPumping property, which we take directly from the pumpOutputConnection - just as a convenience for our users.
 		public bool? IsPumping
 		{
 			get { return _hardware.PumpOutputConnection?.State; }
 			set { _hardware.PumpOutputConnection.State = value; }
+		}
+
+		public void Handle(SensorsWereRead message)
+		{
+			_pumpStrategyParams.RoofDegC = _hardware.RoofTemperatureReader.LastTemperatureDegC.Value;
+			_pumpStrategyParams.InletDegC = _hardware.InletTemperatureReader.LastTemperatureDegC.Value;
+			_pumpStrategyParams.IsPumpCurrentlyOn = _hardware.PumpOutputConnection.State.Value;
+
+			var shouldPumpBeOn = _pumpStrategy.ShouldPumpBeOn(_pumpStrategyParams);
+
+			_hardware.PumpOutputConnection.State = shouldPumpBeOn;
 		}
 	}
 }
