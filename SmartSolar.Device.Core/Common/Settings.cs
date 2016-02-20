@@ -2,10 +2,17 @@
 {
 	public class Settings
 	{
-		// How warm would we like the temperature to get from electricity heating?
-		public int ElectricityTargetDegC = 55;
+		// Input pins on ADC
+		// 
+
+		// Output pins on GPIO
+		public int PumpGpioPin = 22;
+		public int PumpLedPin = 17;
 		public int ElementGpioPin = 27;
 		public int ElementLedPin = 18;
+
+		// How warm would we like the temperature to get from electricity heating?
+		public int ElectricityTargetDegC = 55;
 
 //		public int HoldOffTemperature = 40;
 //		public int HoldOffMinutes = 480;
@@ -17,8 +24,6 @@
 		public int HysteresisFactorDegC = 1;
 
 
-		public int PumpGpioPin = 22;
-		public int PumpLedPin = 17;
 
 		public int PumpOffTemperatureDifference = 2;
 			// these are normally higher....but for testing with just body temp on the thermisters

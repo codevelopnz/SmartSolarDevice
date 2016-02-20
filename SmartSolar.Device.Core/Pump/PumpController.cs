@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using SmartSolar.Device.Core.Common;
 
 namespace SmartSolar.Device.Core.Pump
 {
@@ -7,15 +8,15 @@ namespace SmartSolar.Device.Core.Pump
 	/// </summary>
 	public class PumpController: PropertyChangedBase
 	{
-		private readonly IPumpOutputConnection _pumpOutputConnection;
+		private readonly Hardware _hardware;
 
-		public PumpController(IPumpOutputConnection pumpOutputConnection)
+		public PumpController(Hardware hardware)
 		{
-			_pumpOutputConnection = pumpOutputConnection;
+			_hardware = hardware;
 			// When the output changes state, notify our watchers that our IsPumping has changed
-			_pumpOutputConnection.PropertyChanged += (s, e) =>
+			hardware.PumpOutputConnection.PropertyChanged += (s, e) =>
 			{
-				if (e.PropertyName == nameof(_pumpOutputConnection.State))
+				if (e.PropertyName == nameof(hardware.PumpOutputConnection.State))
 				{
 					NotifyOfPropertyChange(nameof(IsPumping));
 				}
@@ -48,8 +49,8 @@ namespace SmartSolar.Device.Core.Pump
 		// We expose an IsPumping property, which we take directly from the pumpOutputConnection - just as a convenience for our users.
 		public bool? IsPumping
 		{
-			get { return _pumpOutputConnection?.State; }
-			set { _pumpOutputConnection.State = value; }
+			get { return _hardware.PumpOutputConnection?.State; }
+			set { _hardware.PumpOutputConnection.State = value; }
 		}
 	}
 }

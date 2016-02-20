@@ -107,9 +107,8 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Pump\GpioPumpOutputConnection.cs" />
+    <Compile Include="Common\Hardware.cs" />
     <Compile Include="Pump\IPumpOutputConnection.cs" />
-    <Compile Include="Pump\FakePumpOutputConnection.cs" />
     <Compile Include="Pump\PumpController.cs" />
     <Compile Include="Common\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -120,6 +119,8 @@
     <Compile Include="Element\ElementStrategy.cs" />
     <Compile Include="Common\IOutputConnection.cs" />
     <Compile Include="Pump\PumpStrategy.cs" />
+    <Compile Include="Sensor\FakeTemperatureSensor.cs" />
+    <Compile Include="Sensor\ITemperatureReader.cs" />
     <Compile Include="Sensor\ThermistorTemperatureReader.cs" />
     <EmbeddedResource Include="Properties\SmartSolar.Device.Core.rd.xml" />
   </ItemGroup>

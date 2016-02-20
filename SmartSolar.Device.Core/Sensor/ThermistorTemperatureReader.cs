@@ -6,7 +6,7 @@ namespace SmartSolar.Device.Core.Sensor
 	/// <summary>
 	/// Single responsibility: read the current temperature of a thermistor connected via an ADC.
 	/// </summary>
-	public class ThermistorTemperatureReader
+	public class ThermistorTemperatureReader: ITemperatureReader
 	{
 		private IAnalogToDigitalConvertor _adc;
 
@@ -15,9 +15,10 @@ namespace SmartSolar.Device.Core.Sensor
 			_adc = adc;
 		}
 
-		public double ReadTemperatureCelcius(int pinNumber)
+		public int PinNumber { get; set; }
+		public double ReadTemperatureCelcius()
 		{
-			var adcReading = _adc.ReadPin(pinNumber);
+			var adcReading = _adc.ReadPin(PinNumber);
 			return ConvertAdcReadingToDegreesCelcius(adcReading);
 		}
 

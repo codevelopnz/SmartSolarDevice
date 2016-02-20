@@ -7,6 +7,7 @@ using Caliburn.Micro;
 using Ninject;
 using SmartSolar.Device.Core.Common;
 using SmartSolar.Device.Core.Pump;
+using SmartSolar.Device.Core.Sensor;
 using SmartSolar.Device.Messages;
 using SmartSolar.Device.ViewModels;
 
@@ -42,19 +43,30 @@ namespace SmartSolar.Device
 
 			if (shouldUseRealHardware)
 			{
-				// Get the pins we're going to use
+				// Configure the ADC for inputs
+				_kernel.Bind<IAnalogToDigitalConvertor>().To<Mcp3208>();
+
+				// Configure the GPIO for outputs
 				var gpioController = GpioController.GetDefault();
 				var pumpGpioPin = gpioController.OpenPin(settings.PumpGpioPin);
+				var elementGpioPin = gpioController.OpenPin(settings.ElementGpioPin);
 
-				// Create an output connection on top of the pins
-				var pumpConnection = _kernel.Get<GpioPumpOutputConnection>();
-				pumpConnection.Configure(pumpGpioPin);
+				// Use real inputs/outputs where requested
+				_kernel.Bind<IOutputConnection>().To<GpioOutputConnection>();
+				_kernel.Bind<ITemperatureReader>().To<ThermistorTemperatureReader>();
 
-				// Use these connections where requested
-				_kernel.Bind<IPumpOutputConnection>().ToConstant(pumpConnection);
+				// Get and configure the hardware object with correct pins etc
+				_kernel.Bind<Hardware>().ToSelf().InSingletonScope();
+				var hardware = _kernel.Get<Hardware>();
+				(hardware.PumpOutputConnection as GpioOutputConnection)?.Configure(pumpGpioPin);
+				(hardware.ElementOutputConnection as GpioOutputConnection)?.Configure(elementGpioPin);
+				// TODO: configure the thermistor inputs
+//				(hardware.InletTemperatureReader as ThermistorTemperatureReader)?.PinNumber = settings.;
+
 			} else {
-				// Register some fake connectors
-				_kernel.Bind<IPumpOutputConnection>().To<FakePumpOutputConnection>();
+				// Use fake inputs / outputs where requested
+				_kernel.Bind<IOutputConnection>().To<FakeOutputConnection>();
+				_kernel.Bind<ITemperatureReader>().To<FakeTemperatureReader>();
 			}
 
 		}
