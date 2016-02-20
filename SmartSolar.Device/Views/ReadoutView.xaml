@@ -14,5 +14,7 @@
 		<TextBlock Margin="100,0,0,0" Style="{StaticResource PageHeading}">Readout</TextBlock>
 		<TextBlock FontSize="10">PUMP</TextBlock>
 		<TextBlock FontSize="30" x:Name="PumpStateText">Off</TextBlock> 
+		<TextBlock FontSize="10">ELEMENT</TextBlock>
+		<TextBlock FontSize="30" x:Name="ElementStateText"></TextBlock> 
 	</StackPanel>
 </Page> 
