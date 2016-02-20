@@ -107,7 +107,8 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\PumpConnection.cs" />
+    <Compile Include="Domain\IPumpOutputConnection.cs" />
+    <Compile Include="Services\PumpController.cs" />
     <Compile Include="Domain\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Domain\IAnalogToDigitalConvertor.cs" />

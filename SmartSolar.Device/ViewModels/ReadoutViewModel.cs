@@ -5,25 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using SmartSolar.Device.Core.Domain;
+using SmartSolar.Device.Core.Services;
 
 namespace SmartSolar.Device.ViewModels
 {
 	public class ReadoutViewModel : Screen
 	{
-		public Pump Pump { get; set; }
+		public PumpController PumpController { get; set; }
 
 		public string PumpStateText => 
-			Pump.IsPumping.HasValue 
-			? (Pump.IsPumping.Value ? "On" : "Off") 
+			PumpController.IsPumping.HasValue 
+			? (PumpController.IsPumping.Value ? "On" : "Off") 
 			: "?";
 
-		public ReadoutViewModel(Pump pump)
+		public ReadoutViewModel(PumpController pumpController)
 		{
-			Pump = pump;
+			PumpController = pumpController;
 
-			// When the pump changes state, so should our text, so notify of that change.
-			Pump.PropertyChanged +=
-				(s, e) => { if (e.PropertyName == nameof(Pump.IsPumping)) NotifyOfPropertyChange(() => PumpStateText); };
+			// When the PumpController changes state, so should our text, so notify of that change.
+			PumpController.PropertyChanged +=
+				(s, e) => { if (e.PropertyName == nameof(PumpController.IsPumping)) NotifyOfPropertyChange(() => PumpStateText); };
 		}
 	}
 }

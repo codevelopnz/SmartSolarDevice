@@ -175,7 +175,7 @@ namespace SmartSolar.Device.Views
 				//log
 			}
 
-			// if the pump is on, should we turn if off?
+			// if the PumpController is on, should we turn if off?
 			if (isPumpOn)
 			{
 				// if currently under frost conditions, only switch off if 2(?) degress higher than
@@ -184,7 +184,7 @@ namespace SmartSolar.Device.Views
 				{
 					if (inletTemperature - frostTemperature >= 2)
 					{
-						//"turn pump off"
+						//"turn PumpController off"
 						pinPump.Write(GpioPinValue.High);
 						pinPumpLED.Write(GpioPinValue.High);
 						LEDStatus.Fill = grayBrush;
@@ -195,11 +195,11 @@ namespace SmartSolar.Device.Views
 				}
 				else
 				{
-					// if solar target hit or pump off condition met, switch off pump
+					// if solar target hit or PumpController off condition met, switch off PumpController
 					if (inletTemperature >= solarTarget ||
 						roofTemperature - inletTemperature <= pumpOffTemperatureDifference)
 					{
-						//"turn pump off"
+						//"turn PumpController off"
 						pinPump.Write(GpioPinValue.High);
 						pinPumpLED.Write(GpioPinValue.High);
 						LEDStatus.Fill = grayBrush;
@@ -211,11 +211,11 @@ namespace SmartSolar.Device.Views
 				}
 			}
 
-			// should we turn on the pump?
+			// should we turn on the PumpController?
 			// do we have a frost condition
 			if (!isFrost && roofTemperature <= frostTemperature)
 			{
-				//"turn pump on"
+				//"turn PumpController on"
 				pinPump.Write(GpioPinValue.Low);
 				pinPumpLED.Write(GpioPinValue.Low);
 				LEDStatus.Fill = greenBrush;
@@ -225,14 +225,14 @@ namespace SmartSolar.Device.Views
 			}
 			else
 			{
-				// if less than solar target and pump on condition met, turn on pump
+				// if less than solar target and PumpController on condition met, turn on PumpController
 				// note that we only start pumping if the tank temperature is 2 degress less than the
-				// solar target, otherwise the pump cycle is too short before we topout and stop the
-				// pump
+				// solar target, otherwise the PumpController cycle is too short before we topout and stop the
+				// PumpController
 				if (inletTemperature <= solarTarget - 2 &&
 					 roofTemperature - inletTemperature >= pumpOnTemperatureDifference)
 				{
-					//"turn pump on"
+					//"turn PumpController on"
 					pinPump.Write(GpioPinValue.Low);
 					pinPumpLED.Write(GpioPinValue.Low);
 					LEDStatus.Fill = greenBrush;
@@ -242,7 +242,7 @@ namespace SmartSolar.Device.Views
 			}
 
 			// should we be switching on the element (using electricity) at this point?
-			// a big assumption with putting this logic here is that both the pump and element are 
+			// a big assumption with putting this logic here is that both the PumpController and element are 
 			// allowed to be on at the same time.  My thinking is that this should be possible in the
 			// case of a frost condition or even when 'boosting' and solar is hot and ready to go.
 			if (!isElementOn && inletTemperature <= electricityTarget)
