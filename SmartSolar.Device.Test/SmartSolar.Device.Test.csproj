@@ -99,7 +99,7 @@
     <Compile Include="UnitTestApp.xaml.cs">
       <DependentUpon>UnitTestApp.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\ElementStrategyTests.cs" />
+    <Compile Include="Element\ElementStrategyTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="UnitTestApp.xaml">

@@ -1,6 +1,4 @@
-﻿using System.Collections;
-
-namespace SmartSolar.Device.Core.Domain
+﻿namespace SmartSolar.Device.Core.Common
 {
 	public interface IAnalogToDigitalConvertor
 	{

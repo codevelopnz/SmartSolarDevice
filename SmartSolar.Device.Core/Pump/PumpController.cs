@@ -1,7 +1,6 @@
 ﻿using Caliburn.Micro;
-using SmartSolar.Device.Core.Domain;
 
-namespace SmartSolar.Device.Core.Services
+namespace SmartSolar.Device.Core.Pump
 {
 	/// <summary>
 	/// Single responsibility: control the pump, i.e. tell it to turn on or off depending on the conditions.

@@ -1,29 +1,23 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.Devices.Spi;
 using Windows.Devices.Enumeration;
-using SmartSolar.Device.Core.Domain;
+using Windows.Devices.Spi;
 
-namespace SmartSolar.Device.Core.Services
+namespace SmartSolar.Device.Core.Common
 {
 	/// <summary>
-	/// Single responsibility: interface with an MCP3208 ADC chip over the SPI interface.
+	///     Single responsibility: interface with an MCP3208 ADC chip over the SPI interface.
 	/// </summary>
 	public class Mcp3208 : IAnalogToDigitalConvertor
 	{
-		// Configurable parameters - should be set before Initialise() is called
-		public string SpiControllerName { get; set; }
-		public Int32 SpiChipSelectLine { get; set; }
+		private readonly byte[] _readBuffer = new byte[3] {0x06, 0x00, 0x00};
+			//00000110 00; /* It is SPI port serial input pin, and is used to load channel configuration data into the device*/
 
 
 		private SpiDevice _spiDevice;
 		// TODO: what do these magic numbers mean?
-		private byte[] _writeBuffer = new byte[3] { 0x06, 0x00, 0x00 };//00000110 00; /* It is SPI port serial input pin, and is used to load channel configuration data into the device*/
-		private byte[] _readBuffer = new byte[3] { 0x06, 0x00, 0x00 };//00000110 00; /* It is SPI port serial input pin, and is used to load channel configuration data into the device*/
+		private readonly byte[] _writeBuffer = new byte[3] {0x06, 0x00, 0x00};
+			//00000110 00; /* It is SPI port serial input pin, and is used to load channel configuration data into the device*/
+
 		public Mcp3208()
 		{
 			// Set the default connection parameters for this chip. 
@@ -33,6 +27,10 @@ namespace SmartSolar.Device.Core.Services
 			SpiChipSelectLine = 0;
 		}
 
+		// Configurable parameters - should be set before Initialise() is called
+		public string SpiControllerName { get; set; }
+		public int SpiChipSelectLine { get; set; }
+
 		public async void Initialise()
 		{
 			var settings = new SpiConnectionSettings(SpiChipSelectLine)
@@ -41,7 +39,7 @@ namespace SmartSolar.Device.Core.Services
 				Mode = SpiMode.Mode0
 			};
 
-			string spiAqs = SpiDevice.GetDeviceSelector(SpiControllerName);
+			var spiAqs = SpiDevice.GetDeviceSelector(SpiControllerName);
 			var deviceInfo = await DeviceInformation.FindAllAsync(spiAqs);
 			_spiDevice = await SpiDevice.FromIdAsync(deviceInfo[0].Id, settings);
 		}
@@ -54,14 +52,14 @@ namespace SmartSolar.Device.Core.Services
 			}
 
 			// TODO: how do we set the writeBuffer from the pin? Paste a URL with some details of this chip in here.
-			_writeBuffer[1] = 0x40; 
-			 _spiDevice.TransferFullDuplex(_writeBuffer, _readBuffer);
+			_writeBuffer[1] = 0x40;
+			_spiDevice.TransferFullDuplex(_writeBuffer, _readBuffer);
 			return ConvertBytesToInt(_readBuffer);
 		}
 
 		private static int ConvertBytesToInt(byte[] bytes)
 		{
-			int result = bytes[1] & 0x0F;
+			var result = bytes[1] & 0x0F;
 			result <<= 8;
 			result += bytes[2];
 			return result;

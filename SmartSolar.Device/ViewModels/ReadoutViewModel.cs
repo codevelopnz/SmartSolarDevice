@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using SmartSolar.Device.Core.Domain;
-using SmartSolar.Device.Core.Services;
+using SmartSolar.Device.Core.Pump;
 
 namespace SmartSolar.Device.ViewModels
 {

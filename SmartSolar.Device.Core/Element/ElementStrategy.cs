@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SmartSolar.Device.Core.Domain;
+﻿using SmartSolar.Device.Core.Common;
 
-namespace SmartSolar.Device.Core.Services
+namespace SmartSolar.Device.Core.Element
 {
 
 	/// <summary>

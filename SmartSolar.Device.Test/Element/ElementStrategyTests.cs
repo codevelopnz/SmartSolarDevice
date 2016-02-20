@@ -1,10 +1,9 @@
-﻿using System;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using SmartSolar.Device.Core.Domain;
-using SmartSolar.Device.Core.Services;
+using SmartSolar.Device.Core.Common;
+using SmartSolar.Device.Core.Element;
 
-namespace SmartSolar.Device.Test
+namespace SmartSolar.Device.Test.Element
 {
 	[TestClass]
 	public class ElementStrategyTests

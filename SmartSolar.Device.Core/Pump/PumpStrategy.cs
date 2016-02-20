@@ -1,6 +1,6 @@
-﻿using SmartSolar.Device.Core.Domain;
+﻿using SmartSolar.Device.Core.Common;
 
-namespace SmartSolar.Device.Core.Services
+namespace SmartSolar.Device.Core.Pump
 {
 	/// <summary>
 	/// Single responsibility: hold all the factors that influence whether the pump should be on or off.

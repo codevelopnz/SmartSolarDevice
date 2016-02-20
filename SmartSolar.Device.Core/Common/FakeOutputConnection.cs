@@ -1,16 +1,14 @@
 ﻿using Caliburn.Micro;
-using SmartSolar.Device.Core.Domain;
 
-namespace SmartSolar.Device.Core.Services
+namespace SmartSolar.Device.Core.Common
 {
 	public class FakeOutputConnection : PropertyChangedBase, IOutputConnection
 	{
-
-		private bool? _state = null;
+		private bool? _state;
 
 		public bool? State
 		{
-			get { return _state; } 
+			get { return _state; }
 			set
 			{
 				if (value == _state) return;

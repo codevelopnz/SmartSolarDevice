@@ -5,8 +5,8 @@ using Windows.ApplicationModel.Activation;
 using Windows.Devices.Gpio;
 using Caliburn.Micro;
 using Ninject;
-using SmartSolar.Device.Core.Domain;
-using SmartSolar.Device.Core.Services;
+using SmartSolar.Device.Core.Common;
+using SmartSolar.Device.Core.Pump;
 using SmartSolar.Device.Messages;
 using SmartSolar.Device.ViewModels;
 

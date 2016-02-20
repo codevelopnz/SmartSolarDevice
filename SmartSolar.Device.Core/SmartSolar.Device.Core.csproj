@@ -107,20 +107,20 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain\GpioPumpOutputConnection.cs" />
-    <Compile Include="Domain\IPumpOutputConnection.cs" />
-    <Compile Include="Services\FakePumpOutputConnection.cs" />
-    <Compile Include="Services\PumpController.cs" />
-    <Compile Include="Domain\Settings.cs" />
+    <Compile Include="Pump\GpioPumpOutputConnection.cs" />
+    <Compile Include="Pump\IPumpOutputConnection.cs" />
+    <Compile Include="Pump\FakePumpOutputConnection.cs" />
+    <Compile Include="Pump\PumpController.cs" />
+    <Compile Include="Common\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Domain\IAnalogToDigitalConvertor.cs" />
-    <Compile Include="Domain\FakeOutputConnection.cs" />
-    <Compile Include="Services\GpioOutputConnection.cs" />
-    <Compile Include="Services\MCP3208.cs" />
-    <Compile Include="Services\ElementStrategy.cs" />
-    <Compile Include="Domain\IOutputConnection.cs" />
-    <Compile Include="Services\PumpStrategy.cs" />
-    <Compile Include="Services\ThermistorTemperatureReader.cs" />
+    <Compile Include="Common\IAnalogToDigitalConvertor.cs" />
+    <Compile Include="Common\FakeOutputConnection.cs" />
+    <Compile Include="Common\GpioOutputConnection.cs" />
+    <Compile Include="Common\MCP3208.cs" />
+    <Compile Include="Element\ElementStrategy.cs" />
+    <Compile Include="Common\IOutputConnection.cs" />
+    <Compile Include="Pump\PumpStrategy.cs" />
+    <Compile Include="Sensor\ThermistorTemperatureReader.cs" />
     <EmbeddedResource Include="Properties\SmartSolar.Device.Core.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -128,6 +128,7 @@
       <Name>Windows IoT Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
