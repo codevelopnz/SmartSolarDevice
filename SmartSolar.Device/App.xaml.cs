@@ -6,6 +6,7 @@ using Windows.Devices.Gpio;
 using Caliburn.Micro;
 using Ninject;
 using SmartSolar.Device.Core.Common;
+using SmartSolar.Device.Core.Element;
 using SmartSolar.Device.Core.Pump;
 using SmartSolar.Device.Core.Sensor;
 using SmartSolar.Device.Messages;
@@ -36,6 +37,7 @@ namespace SmartSolar.Device
 			// Singletons
 			_kernel.Bind<Settings>().ToSelf().InSingletonScope();
 			_kernel.Bind<PumpController>().ToSelf().InSingletonScope();
+			_kernel.Bind<ElementController>().ToSelf().InSingletonScope();
 			_kernel.Bind<Hardware>().ToSelf().InSingletonScope();
 			var settings = _kernel.Get<Settings>();
 

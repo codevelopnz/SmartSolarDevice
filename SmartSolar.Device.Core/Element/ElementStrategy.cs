@@ -11,7 +11,7 @@ namespace SmartSolar.Device.Core.Element
 	public class ElementStrategyParams
 	{
 		public bool IsElementCurrentlyOn { get; set; }
-		public int InletTemperature { get; set; }
+		public double InletTemperature { get; set; }
 		
 	}
 	/// <summary>
