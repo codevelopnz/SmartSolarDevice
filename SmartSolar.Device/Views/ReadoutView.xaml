@@ -9,7 +9,7 @@
 	d:DesignHeight="300"
 	d:DesignWidth="400">
 
-	<StackPanel>
+	<StackPanel Margin="30,0,0,0">
 		<!--  Heading-->
 		<TextBlock Margin="100,0,0,0" Style="{StaticResource PageHeading}">Readout</TextBlock>
 		<!--  Inputs-->
@@ -18,24 +18,24 @@
 		<TextBlock FontSize="10">ROOF</TextBlock>
 		<StackPanel Orientation="Horizontal">
 			<TextBlock FontSize="30" x:Name="RoofDegC"></TextBlock>
-			<Button Name="RoofDegCPlus">+</Button>
 			<Button Name="RoofDegCMinus">-</Button>
+			<Button Name="RoofDegCPlus">+</Button>
 		</StackPanel>
-		<TextBlock FontSize="10">INLET</TextBlock>
+		<TextBlock FontSize="10" Margin="0,20,0,0">INLET</TextBlock>
 		<StackPanel Orientation="Horizontal">
 			<TextBlock FontSize="30" x:Name="InletDegC"></TextBlock>
-			<Button Name="InletDegCPlus">+</Button>
 			<Button Name="InletDegCMinus">-</Button>
+			<Button Name="InletDegCPlus">+</Button>
 		</StackPanel>
-		<TextBlock FontSize="10">TANK</TextBlock>
+		<TextBlock FontSize="10" Margin="0,20,0,0">TANK</TextBlock>
 		<StackPanel Orientation="Horizontal">
 			<TextBlock FontSize="30" x:Name="TankDegC"></TextBlock>
-			<Button Name="TankDegCPlus">+</Button>
 			<Button Name="TankDegCMinus">-</Button>
+			<Button Name="TankDegCPlus">+</Button>
 		</StackPanel>
-		<TextBlock FontSize="10">PUMP</TextBlock>
+		<TextBlock FontSize="10" Margin="0,20,0,0">PUMP</TextBlock>
 		<TextBlock FontSize="30" x:Name="PumpStateText">Off</TextBlock>
-		<TextBlock FontSize="10">ELEMENT</TextBlock>
+		<TextBlock FontSize="10" Margin="0,20,0,0">ELEMENT</TextBlock>
 		<TextBlock FontSize="30" x:Name="ElementStateText"></TextBlock>
 	</StackPanel>
 </Page> 
