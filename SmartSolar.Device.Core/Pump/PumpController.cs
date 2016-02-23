@@ -28,22 +28,6 @@ namespace SmartSolar.Device.Core.Pump
 			_hardware = hardware;
 			_pumpStrategy = pumpStrategy;
 			_pumpStrategyParams = pumpStrategyParams;
-			// When the output changes state, notify our watchers that our IsPumping has changed
-			hardware.PumpOutputConnection.PropertyChanged += (s, e) =>
-			{
-				if (e.PropertyName == nameof(hardware.PumpOutputConnection.State))
-				{
-					NotifyOfPropertyChange(nameof(IsPumping));
-				}
-			};
-		}
-
-
-		// We expose an IsPumping property, which we take directly from the pumpOutputConnection - just as a convenience for our users.
-		public bool? IsPumping
-		{
-			get { return _hardware.PumpOutputConnection?.State; }
-			set { _hardware.PumpOutputConnection.State = value; }
 		}
 
 		public void Handle(SensorsWereRead message)
