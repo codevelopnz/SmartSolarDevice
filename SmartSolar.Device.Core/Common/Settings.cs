@@ -23,8 +23,6 @@
 		// - to avoid "thrashing" where we turn a pump or element on/off repeatedly as the measured values varies just slightly either side of the target value.
 		public int HysteresisFactorDegC = 1;
 
-
-
 		public int PumpOffTemperatureDifference = 2;
 			// these are normally higher....but for testing with just body temp on the thermisters
 
