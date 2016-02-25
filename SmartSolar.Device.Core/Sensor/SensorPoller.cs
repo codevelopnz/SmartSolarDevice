@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using SmartSolar.Device.Core.Common;
 using SmartSolar.Device.Core.Messages;
 
-namespace SmartSolar.Device.Core.Common
+namespace SmartSolar.Device.Core.Sensor
 {
 	/// <summary>
 	/// Single responsibility: poll the sensors on a regular basis, and tell the app afterwards

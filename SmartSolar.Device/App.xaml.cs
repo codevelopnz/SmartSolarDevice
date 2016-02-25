@@ -31,9 +31,6 @@ namespace SmartSolar.Device
 			_kernel.Bind<IEventAggregator>().To<EventAggregator>().InSingletonScope();
 			_eventAggregator = _kernel.Get<IEventAggregator>();
 
-//			_container = new WinRTContainer();
-//			_container.RegisterWinRTServices();
-
 			// Singletons
 			_kernel.Bind<Settings>().ToSelf().InSingletonScope();
 			_kernel.Bind<PumpController>().ToSelf().InSingletonScope();
@@ -109,20 +106,17 @@ namespace SmartSolar.Device
 
 		protected override object GetInstance(Type service, string key)
 		{
-//			return _container.GetInstance(service, key);
 			return _kernel.Get(service);//, key);
 		}
 
 		protected override IEnumerable<object> GetAllInstances(Type service)
 		{
-//			return _container.GetAllInstances(service);
 			return _kernel.GetAll(service);
 		}
 
 		protected override void BuildUp(object instance)
 		{
 			_kernel.Inject(instance);
-//			_container.BuildUp(instance);
 		}
 	}
 }

@@ -108,7 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Hardware.cs" />
-    <Compile Include="Common\SensorPoller.cs" />
+    <Compile Include="Sensor\SensorPoller.cs" />
     <Compile Include="Messages\SensorsWereRead.cs" />
     <Compile Include="Element\ElementController.cs" />
     <Compile Include="Pump\IPumpOutputConnection.cs" />
