@@ -4,5 +4,10 @@ namespace SmartSolar.Device.ViewModels
 {
 	public class MainPageViewModel : Screen
 	{
+		public MainPageViewModel()
+		{
+			
+		}
+
 	}
 }

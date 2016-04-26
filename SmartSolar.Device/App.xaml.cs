@@ -36,6 +36,7 @@ namespace SmartSolar.Device
 			_kernel.Bind<PumpController>().ToSelf().InSingletonScope();
 			_kernel.Bind<ElementController>().ToSelf().InSingletonScope();
 			_kernel.Bind<Hardware>().ToSelf().InSingletonScope();
+			_kernel.Bind<HardwareInitializer>().ToSelf().InSingletonScope();
 			var settings = _kernel.Get<Settings>();
 
 			// Use real hardware if we have a GpioController - else use fakeys
@@ -46,14 +47,6 @@ namespace SmartSolar.Device
 				// Configure the ADC for inputs
 //				_kernel.Bind<IAnalogToDigitalConvertor>().To<Mcp3208>();
 				_kernel.Bind<IAnalogToDigitalConvertor>().To<Mcp3008>().InSingletonScope();
-				// TODO: this never returns because it deadlocks:
-				// http://blog.stephencleary.com/2012/07/dont-block-on-async-code.html
-				// soluion is to move this config (& kicking off the poller) out of here and into somewhere
-				// where it can happily run async, e.g. the MainPageView - looks like Caliburn Micro
-				// is OK with async in e.g. OnInitialize()
-//				http://stackoverflow.com/questions/15417354/will-caliburn-micro-do-the-right-thing-with-async-method-on-viewmodel
-
-				_kernel.Get<IAnalogToDigitalConvertor>().Initialise().Wait();
 
 				// Configure the GPIO for outputs
 				var gpioController = GpioController.GetDefault();
@@ -66,10 +59,13 @@ namespace SmartSolar.Device
 
 				// Get and configure the hardware object with correct pins etc
 				var hardware = _kernel.Get<Hardware>();
+				// - GPIO Outputs
 				(hardware.PumpOutputConnection as GpioOutputConnection)?.Configure(pumpGpioPin);
 				(hardware.ElementOutputConnection as GpioOutputConnection)?.Configure(elementGpioPin);
-				// TODO: configure the thermistor inputs
-//				(hardware.InletTemperatureReader as ThermistorTemperatureReader)?.PinNumber = settings.;
+				// - ADC inputs
+				((ThermistorTemperatureReader) hardware.InletTemperatureReader).PinNumber = 1;
+				((ThermistorTemperatureReader) hardware.TankTemperatureReader).PinNumber = 2;
+				((ThermistorTemperatureReader) hardware.RoofTemperatureReader).PinNumber = 3;
 
 			} else {
 				// Use fake inputs / outputs where requested
@@ -84,9 +80,6 @@ namespace SmartSolar.Device
 				((FakeOutputConnection) hardware.ElementOutputConnection).State = false;
 			}
 
-			// Kick off the poller
-			var sensorPoller = _kernel.Get<SensorPoller>();
-			sensorPoller.PollContinuously();
 		}
 
 		protected override void OnLaunched(LaunchActivatedEventArgs args)

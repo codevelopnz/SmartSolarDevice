@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Hardware.cs" />
+    <Compile Include="Common\HardwareInitializer.cs" />
     <Compile Include="Common\MCP3008.cs" />
     <Compile Include="Sensor\SensorPoller.cs" />
     <Compile Include="Messages\SensorsWereRead.cs" />
