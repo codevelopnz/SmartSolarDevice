@@ -6,9 +6,9 @@
 		// 
 
 		// Output pins on GPIO
-		public int PumpGpioPin = 22;
+		public int PumpGpioPin = 20;
 		public int PumpLedPin = 17;
-		public int ElementGpioPin = 27;
+		public int ElementGpioPin = 21;
 		public int ElementLedPin = 18;
 
 		// How warm would we like the temperature to get from electricity heating?

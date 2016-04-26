@@ -6,9 +6,9 @@ using Windows.Devices.Spi;
 namespace SmartSolar.Device.Core.Common
 {
 	/// <summary>
-	///     Single responsibility: interface with an MCP3208 ADC chip over the SPI interface.
+	///     Single responsibility: interface with an MCP3008 ADC chip over the SPI interface.
 	/// </summary>
-	public class Mcp3208 : IAnalogToDigitalConvertor
+	public class Mcp3008 : IAnalogToDigitalConvertor
 	{
 		private readonly byte[] _readBuffer = new byte[3] {0x06, 0x00, 0x00};
 			//00000110 00; /* It is SPI port serial input pin, and is used to load channel configuration data into the device*/
@@ -19,7 +19,7 @@ namespace SmartSolar.Device.Core.Common
 		private readonly byte[] _writeBuffer = new byte[3] {0x06, 0x00, 0x00};
 			//00000110 00; /* It is SPI port serial input pin, and is used to load channel configuration data into the device*/
 
-		public Mcp3208()
+		public Mcp3008()
 		{
 			// Set the default connection parameters for this chip. 
 			// - connect via SPI0
