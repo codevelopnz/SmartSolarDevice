@@ -63,9 +63,9 @@ namespace SmartSolar.Device
 				(hardware.PumpOutputConnection as GpioOutputConnection)?.Configure(pumpGpioPin);
 				(hardware.ElementOutputConnection as GpioOutputConnection)?.Configure(elementGpioPin);
 				// - ADC inputs
-				((ThermistorTemperatureReader) hardware.InletTemperatureReader).PinNumber = 1;
-				((ThermistorTemperatureReader) hardware.TankTemperatureReader).PinNumber = 2;
-				((ThermistorTemperatureReader) hardware.RoofTemperatureReader).PinNumber = 3;
+				((ThermistorTemperatureReader) hardware.RoofTemperatureReader).PinNumber = settings.RoofThermistorAdcPin;
+				((ThermistorTemperatureReader) hardware.TankTemperatureReader).PinNumber = settings.TankThermistorAdcPin;
+				((ThermistorTemperatureReader) hardware.InletTemperatureReader).PinNumber = settings.InletThermistorAdcPin;
 
 			} else {
 				// Use fake inputs / outputs where requested

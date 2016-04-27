@@ -3,6 +3,9 @@
 	public class Settings
 	{
 		// Input pins on ADC
+		public int RoofThermistorAdcPin = 1;
+		public int TankThermistorAdcPin = 2;
+		public int InletThermistorAdcPin = 3;
 		// 
 
 		// Output pins on GPIO

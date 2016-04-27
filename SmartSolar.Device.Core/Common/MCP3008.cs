@@ -10,13 +10,15 @@ namespace SmartSolar.Device.Core.Common
 	/// </summary>
 	public class Mcp3008 : IAnalogToDigitalConvertor
 	{
-		private readonly byte[] _readBuffer = new byte[3] {0x06, 0x00, 0x00};
-			//00000110 00; /* It is SPI port serial input pin, and is used to load channel configuration data into the device*/
-
-
 		private SpiDevice _spiDevice;
+
+		// For a great writeup on what these buffers mean, see:
+		// http://blog.falafel.com/mcp3008-analog-to-digital-conversion/
+
 		// TODO: what do these magic numbers mean?
-		private readonly byte[] _writeBuffer = new byte[3] {0x06, 0x00, 0x00};
+		private readonly byte[] _writeBuffer = new byte[3];
+		private readonly byte[] _readBuffer = new byte[3];
+			//00000110 00; /* It is SPI port serial input pin, and is used to load channel configuration data into the device*/
 			//00000110 00; /* It is SPI port serial input pin, and is used to load channel configuration data into the device*/
 
 		public Mcp3008()
@@ -36,7 +38,8 @@ namespace SmartSolar.Device.Core.Common
 		{
 			var settings = new SpiConnectionSettings(SpiChipSelectLine)
 			{
-				ClockFrequency = 500000,
+//				ClockFrequency = 500000,
+				ClockFrequency = 3600000, // 3.6MHz
 				Mode = SpiMode.Mode0
 			};
 
@@ -52,8 +55,22 @@ namespace SmartSolar.Device.Core.Common
 				throw new Exception("SPI device not initialised");
 			}
 
-			// TODO: how do we set the writeBuffer from the pin? Paste a URL with some details of this chip in here.
-			_writeBuffer[1] = 0x40;
+			var channel = PinToChannel(pinNumber);
+
+			// See http://blog.falafel.com/mcp3008-analog-to-digital-conversion/ for details of this dark, dark magic
+			// - first byte is start bit
+			_writeBuffer[0] = 0x01; 
+			// - second byte tells the ADC what we want to read
+//			_writeBuffer[1] = GetConfigurationByteToReadChannel(channel); 
+			_writeBuffer[1] = 0x80;
+			// - third byte isn't used AFAIK
+			_writeBuffer[2] = 0x0;
+
+			// Try overriding with values from https://microsoft.hackster.io/en-US/4796/temperature-sensor-sample-393755?ref=search&ref_id=temperature&offset=2
+//			_writeBuffer[0] = 0x68; 
+//			_writeBuffer[1] = 0x00;
+//			_writeBuffer[2] = 0x0;
+
 			_spiDevice.TransferFullDuplex(_writeBuffer, _readBuffer);
 			return ConvertBytesToInt(_readBuffer);
 		}
@@ -65,5 +82,33 @@ namespace SmartSolar.Device.Core.Common
 			result += bytes[2];
 			return result;
 		}
+
+		private static int PinToChannel(int pin) {
+			// Pin 1 is Channel 0, etc up to Pin 8 is Channel 7
+			// http://blog.falafel.com/mcp3008-analog-to-digital-conversion/
+			if (pin < 1 || pin > 8) throw new ArgumentException("MCP3008 doesn't have an input channel on Pin " + pin);
+			return pin - 1;
+		}
+
+		private static byte GetConfigurationByteToReadChannel(int channel)
+		{
+			// Embodies the table 5.2 from http://blog.falafel.com/mcp3008-analog-to-digital-conversion/
+			// (At least, the single-ended reads - we don't need to read the differential between two channels in this project)
+			byte leftBit = 0x1; // would be 0x0 for differential
+			byte channelSelectionBits = (byte) channel;
+//			byte differentialBit = (byte) 0x0 << 8;
+
+
+			var result = (byte) (
+				// left-most bit, shifted to left-most position
+				leftBit << 7
+				// next 3 bytes are the channel
+				| (byte)channelSelectionBits << 6
+				// last 4 bytes aren't needed, they'll be zero here)
+			);
+
+			return result;
+		}
+
 	}
 }
