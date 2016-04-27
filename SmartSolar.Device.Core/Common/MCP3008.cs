@@ -61,8 +61,8 @@ namespace SmartSolar.Device.Core.Common
 			// - first byte is start bit
 			_writeBuffer[0] = 0x01; 
 			// - second byte tells the ADC what we want to read
-//			_writeBuffer[1] = GetConfigurationByteToReadChannel(channel); 
-			_writeBuffer[1] = 0x80;
+			_writeBuffer[1] = GetConfigurationByteToReadChannel(channel); 
+//			_writeBuffer[1] = 0x80;
 			// - third byte isn't used AFAIK
 			_writeBuffer[2] = 0x0;
 
@@ -72,12 +72,18 @@ namespace SmartSolar.Device.Core.Common
 //			_writeBuffer[2] = 0x0;
 
 			_spiDevice.TransferFullDuplex(_writeBuffer, _readBuffer);
-			return ConvertBytesToInt(_readBuffer);
+			var result = ConvertBytesToInt(_readBuffer);
+			return result;
 		}
 
 		private static int ConvertBytesToInt(byte[] bytes)
 		{
-			var result = bytes[1] & 0x0F;
+			// From http://blog.falafel.com/mcp3008-analog-to-digital-conversion/
+			// - first byte returned is 0 (00000000), 
+			// - second byte returned we are only interested in the last 2 bits 00000011 (mask of &3) 
+			// - then shift result 8 bits to make room for the data from the 3rd byte (makes 10 bits total)
+			// - third byte, need all bits, simply add it to the above result 
+			var result = bytes[1] & 0x03;
 			result <<= 8;
 			result += bytes[2];
 			return result;
@@ -103,7 +109,7 @@ namespace SmartSolar.Device.Core.Common
 				// left-most bit, shifted to left-most position
 				leftBit << 7
 				// next 3 bytes are the channel
-				| (byte)channelSelectionBits << 6
+				| (byte)channelSelectionBits << 4
 				// last 4 bytes aren't needed, they'll be zero here)
 			);
 
