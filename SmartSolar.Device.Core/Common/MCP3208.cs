@@ -7,6 +7,7 @@ namespace SmartSolar.Device.Core.Common
 {
 	/// <summary>
 	///     Single responsibility: interface with an MCP3208 ADC chip over the SPI interface.
+	/// TODO: this code has never been tested, whereas the MCP3008 has. Update this code from the MCP3008, OR extract out the common parts & only have the differences here.
 	/// </summary>
 	public class Mcp3208 : IAnalogToDigitalConvertor
 	{
@@ -31,6 +32,7 @@ namespace SmartSolar.Device.Core.Common
 		// Configurable parameters - should be set before Initialise() is called
 		public string SpiControllerName { get; set; }
 		public int SpiChipSelectLine { get; set; }
+		public float ReferenceVoltage { get; set; }
 
 		public async Task Initialise()
 		{
@@ -45,7 +47,7 @@ namespace SmartSolar.Device.Core.Common
 			_spiDevice = await SpiDevice.FromIdAsync(deviceInfo[0].Id, settings);
 		}
 
-		public int ReadPin(int pinNumber)
+		public float ReadPinVolts(int pinNumber)
 		{
 			if (_spiDevice == null)
 			{

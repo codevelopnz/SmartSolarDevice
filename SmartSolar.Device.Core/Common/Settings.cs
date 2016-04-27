@@ -6,6 +6,7 @@
 		public int RoofThermistorAdcPin = 1;
 		public int TankThermistorAdcPin = 2;
 		public int InletThermistorAdcPin = 3;
+		public float AdcReferenceVoltage = 3.3f;
 		// 
 
 		// Output pins on GPIO

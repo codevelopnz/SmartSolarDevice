@@ -5,6 +5,7 @@ namespace SmartSolar.Device.Core.Common
 	public interface IAnalogToDigitalConvertor
 	{
 		Task Initialise();
-		int ReadPin(int pinNumber);
+		float ReadPinVolts(int pinNumber);
+		float ReferenceVoltage { get; set; }
 	}
 }

@@ -33,6 +33,7 @@ namespace SmartSolar.Device.Core.Common
 		// Configurable parameters - should be set before Initialise() is called
 		public string SpiControllerName { get; set; }
 		public int SpiChipSelectLine { get; set; }
+		public float ReferenceVoltage { get; set; }
 
 		public async Task Initialise()
 		{
@@ -48,7 +49,7 @@ namespace SmartSolar.Device.Core.Common
 			_spiDevice = await SpiDevice.FromIdAsync(deviceInfo[0].Id, settings);
 		}
 
-		public int ReadPin(int pinNumber)
+		public float ReadPinVolts(int pinNumber)
 		{
 			if (_spiDevice == null)
 			{
@@ -66,14 +67,9 @@ namespace SmartSolar.Device.Core.Common
 			// - third byte isn't used AFAIK
 			_writeBuffer[2] = 0x0;
 
-			// Try overriding with values from https://microsoft.hackster.io/en-US/4796/temperature-sensor-sample-393755?ref=search&ref_id=temperature&offset=2
-//			_writeBuffer[0] = 0x68; 
-//			_writeBuffer[1] = 0x00;
-//			_writeBuffer[2] = 0x0;
-
 			_spiDevice.TransferFullDuplex(_writeBuffer, _readBuffer);
 			var result = ConvertBytesToInt(_readBuffer);
-			return result;
+			return (result / 1023f) * ReferenceVoltage; // 1023 because it's a 10-bit ADC, and 2^10 = 1024
 		}
 
 		private static int ConvertBytesToInt(byte[] bytes)

@@ -10,11 +10,14 @@ namespace SmartSolar.Device.Core.Sensor
 	public class ThermistorTemperatureReader: PropertyChangedBase, ITemperatureReader
 	{
 		private IAnalogToDigitalConvertor _adc;
+		private readonly Settings _settings;
 		private double? _lastTemperatureDegC;
 
-		public ThermistorTemperatureReader(IAnalogToDigitalConvertor adc)
+		public ThermistorTemperatureReader(IAnalogToDigitalConvertor adc, Settings settings)
 		{
 			_adc = adc;
+			_settings = settings;
+			adc.ReferenceVoltage = settings.AdcReferenceVoltage;
 		}
 
 		public int PinNumber { get; set; }
@@ -32,12 +35,12 @@ namespace SmartSolar.Device.Core.Sensor
 
 		public double ReadTemperatureDegC()
 		{
-			var adcReading = _adc.ReadPin(PinNumber);
-			LastTemperatureDegC = ConvertAdcReadingToDegreesCelcius(adcReading);
+			var pinVolts = _adc.ReadPinVolts(PinNumber);
+			LastTemperatureDegC = ConvertPinVoltsToDegreesCelcius(pinVolts);
 			return LastTemperatureDegC.Value;
 		}
 
-		public double ConvertAdcReadingToDegreesCelcius(int adcReading)
+		public double ConvertPinVoltsToDegreesCelcius(float pinVolts)
 		{
 
 			//var volts = Convert.ToDecimal(res) * (5M / 4095.0M);
@@ -67,8 +70,9 @@ namespace SmartSolar.Device.Core.Sensor
 			double bCoefficient = 3369;
 			double steinhart;
 
-			var volts = Convert.ToDouble(adcReading) * (3.3 / 4095.0);
-			var ohms = ((3.3 / volts) - 1.0) * 10000.0;
+//			var volts = Convert.ToDouble(adcReading) * (3.3 / 4095.0);
+// Trevor: why do we -1 here? How are we converting from volts on the pin, to ohms?
+			var ohms = ((_settings.AdcReferenceVoltage / pinVolts) - 1.0) * 10000.0;
 
 			steinhart = ohms / thermisterNominal;     // (R/Ro)
 			steinhart = Math.Log(steinhart);                  // ln(R/Ro)
