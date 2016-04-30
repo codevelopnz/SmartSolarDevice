@@ -13,6 +13,7 @@ namespace SmartSolar.Device.ViewModels
 {
 	public class ReadoutViewModel : Screen
 	{
+		private readonly HardwareInitializer _hardwareInitializer;
 		public PumpController PumpController { get; set; }
 		public ElementController ElementController { get; set; }
 		public Hardware Hardware { get; set; }
@@ -41,9 +42,11 @@ namespace SmartSolar.Device.ViewModels
 		public ReadoutViewModel(
 			PumpController pumpController,
 			ElementController elementController,
-			Hardware hardware
+			Hardware hardware,
+			HardwareInitializer hardwareInitializer 
 			)
 		{
+			_hardwareInitializer = hardwareInitializer;
 			PumpController = pumpController;
 			ElementController = elementController;
 			Hardware = hardware;
@@ -54,6 +57,11 @@ namespace SmartSolar.Device.ViewModels
 			Hardware.RoofTemperatureReader.PropertyChanged += (s, e) => NotifyOfPropertyChange(() => RoofDegC);
 			Hardware.InletTemperatureReader.PropertyChanged += (s, e) => NotifyOfPropertyChange(() => InletDegC);
 			Hardware.TankTemperatureReader.PropertyChanged += (s, e) => NotifyOfPropertyChange(() => TankDegC);
+		}
+		protected override void OnActivate() {
+			// Hardware initialization is async, and needs to be done somewhere where that won't hang
+			// Here is a good place - see HardwareInitializer class for details
+			_hardwareInitializer.Initialize();
 		}
 
 		public void RoofDegCPlus()

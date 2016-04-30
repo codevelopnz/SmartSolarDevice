@@ -39,3 +39,5 @@ Ultimately, I want to make this as compact and robust as possible without going 
 ![alt tag](https://raw.githubusercontent.com/codevelopnz/SmartSolarDevice/master/Resources/breadboard.PNG "Early breadboard design!")
 
 Coming soon...photos of the early breadboard prototype, my current prototype and soon the permaproto all soldered up.
+
+

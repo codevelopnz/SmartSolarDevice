@@ -36,6 +36,7 @@ namespace SmartSolar.Device
 			_kernel.Bind<PumpController>().ToSelf().InSingletonScope();
 			_kernel.Bind<ElementController>().ToSelf().InSingletonScope();
 			_kernel.Bind<Hardware>().ToSelf().InSingletonScope();
+			_kernel.Bind<HardwareInitializer>().ToSelf().InSingletonScope();
 			var settings = _kernel.Get<Settings>();
 
 			// Use real hardware if we have a GpioController - else use fakeys
@@ -44,7 +45,8 @@ namespace SmartSolar.Device
 			if (shouldUseRealHardware)
 			{
 				// Configure the ADC for inputs
-				_kernel.Bind<IAnalogToDigitalConvertor>().To<Mcp3208>();
+//				_kernel.Bind<IAnalogToDigitalConvertor>().To<Mcp3208>();
+				_kernel.Bind<IAnalogToDigitalConvertor>().To<Mcp3008>().InSingletonScope();
 
 				// Configure the GPIO for outputs
 				var gpioController = GpioController.GetDefault();
@@ -56,12 +58,14 @@ namespace SmartSolar.Device
 				_kernel.Bind<ITemperatureReader>().To<ThermistorTemperatureReader>();
 
 				// Get and configure the hardware object with correct pins etc
-				_kernel.Bind<Hardware>().ToSelf().InSingletonScope();
 				var hardware = _kernel.Get<Hardware>();
+				// - GPIO Outputs
 				(hardware.PumpOutputConnection as GpioOutputConnection)?.Configure(pumpGpioPin);
 				(hardware.ElementOutputConnection as GpioOutputConnection)?.Configure(elementGpioPin);
-				// TODO: configure the thermistor inputs
-//				(hardware.InletTemperatureReader as ThermistorTemperatureReader)?.PinNumber = settings.;
+				// - ADC inputs
+				((ThermistorTemperatureReader) hardware.RoofTemperatureReader).PinNumber = settings.RoofThermistorAdcPin;
+				((ThermistorTemperatureReader) hardware.TankTemperatureReader).PinNumber = settings.TankThermistorAdcPin;
+				((ThermistorTemperatureReader) hardware.InletTemperatureReader).PinNumber = settings.InletThermistorAdcPin;
 
 			} else {
 				// Use fake inputs / outputs where requested
@@ -76,9 +80,6 @@ namespace SmartSolar.Device
 				((FakeOutputConnection) hardware.ElementOutputConnection).State = false;
 			}
 
-			// Kick off the poller
-			var sensorPoller = _kernel.Get<SensorPoller>();
-			sensorPoller.PollContinuously();
 		}
 
 		protected override void OnLaunched(LaunchActivatedEventArgs args)
