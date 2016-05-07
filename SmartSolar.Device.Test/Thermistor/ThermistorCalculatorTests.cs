@@ -13,8 +13,6 @@ namespace SmartSolar.Device.Test.Element
 		public ThermistorCalculatorTests()
 		{
 			_thermistorCalculator = new ThermistorCalculator();
-//			_settings = new Settings();
-//			_elementStrategy = new ElementStrategy(_settings);
 		}
 
 		[TestMethod]
