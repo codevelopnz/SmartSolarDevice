@@ -13,3 +13,4 @@ SmartSolar.Device.Core/bin/
 */project.lock.json
 SmartSolar.Device.Test/bin/
 SmartSolar.Device.Test/obj/
+*.user
