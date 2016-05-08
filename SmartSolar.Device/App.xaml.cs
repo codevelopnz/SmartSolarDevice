@@ -66,6 +66,10 @@ namespace SmartSolar.Device
 				((ThermistorTemperatureReader) hardware.RoofTemperatureReader).PinNumber = settings.RoofThermistorAdcPin;
 				((ThermistorTemperatureReader) hardware.TankTemperatureReader).PinNumber = settings.TankThermistorAdcPin;
 				((ThermistorTemperatureReader) hardware.InletTemperatureReader).PinNumber = settings.InletThermistorAdcPin;
+				// - Thermistor model parameters
+				((ThermistorTemperatureReader) hardware.RoofTemperatureReader).ThermistorModelParameters = settings.RoofThermistorModelParameters;
+				((ThermistorTemperatureReader) hardware.TankTemperatureReader).ThermistorModelParameters = settings.TankThermistorModelParameters;
+				((ThermistorTemperatureReader) hardware.InletTemperatureReader).ThermistorModelParameters = settings.InletThermistorModelParameters;
 
 			} else {
 				// Use fake inputs / outputs where requested

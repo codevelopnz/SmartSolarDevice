@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Caliburn.Micro;
 using SmartSolar.Device.Core.Common;
 
@@ -11,16 +12,20 @@ namespace SmartSolar.Device.Core.Sensor
 	{
 		private IAnalogToDigitalConvertor _adc;
 		private readonly Settings _settings;
+		private readonly ThermistorCalculator _thermistorCalculator;
 		private double? _lastTemperatureDegC;
 
-		public ThermistorTemperatureReader(IAnalogToDigitalConvertor adc, Settings settings)
+		public ThermistorTemperatureReader(IAnalogToDigitalConvertor adc, Settings settings, ThermistorCalculator thermistorCalculator)
 		{
 			_adc = adc;
 			_settings = settings;
+			_thermistorCalculator = thermistorCalculator;
 			adc.ReferenceVoltage = settings.AdcReferenceVoltage;
 		}
 
+		// These two are set during configuration
 		public int PinNumber { get; set; }
+		public ThermistorModelParameters ThermistorModelParameters { get; set; }
 
 		public double? LastTemperatureDegC
 		{
@@ -42,46 +47,29 @@ namespace SmartSolar.Device.Core.Sensor
 
 		public double ConvertPinVoltsToDegreesCelcius(float pinVolts)
 		{
+			// We know that our thermistor is in series with a 10k resistor. 
+			// Think of the thermistor on top of the 10k resistor, with the measurement point in between.
+			// The current through both of them must therefore be equal.
+			// Definitions:
+			// * Vref = reference voltage, at the top of both resistors
+			// * Vmeasured = measured voltage, in between the two resistors
+			// * Rref = our 10k resistor
+			// * Rthermistor = resistance of our thermistor
+			// Rmeasured = measured resistance of the thermistor
+			// Basic ohms' law says V=IR, so I = V/R, so taking this for each resistor
+			// 1. For the thermistor, on top of the 10k resistor:
+			//    I = (Vref - Vmeasured) / Rthermistor
+			// 2. For the 10k resistor:
+			//    I = Vmeasured / 10k
+			// ... since we know those two currents are equal:
+			// (Vref - Vmeasured) / Rthermistor = Vmeasured / 10k
+			// ... rearranging because we want to know Rthermistor
+			// (Vref - Vmeasured) * 10k / Vmeasured = Rthermistor
 
-			//var volts = Convert.ToDecimal(res) * (5M / 4095.0M);
-			////var ohms = ((1.0M / volts) * 5000M) + 10000M;
-			////var ohms = volts / 0.0001M;
-			//var ohms = ((5M / volts) - 1M) * 10000M;
-			//var lnohm = Math.Log(Convert.ToDouble(ohms), Math.E);
+			var thermistorResistance = (_settings.AdcReferenceVoltage - pinVolts) * 10000 / pinVolts;
 
-			//// a, b, & c values from http://www.thermistor.com/calculators.php
-			//// using curve R (-6.2%/C @ 25C) Mil Ratio X
-			//var a = 0.001821776240470;
-			//var b = 0.000159566897583;
-			//var c = 0.000000080342408;
-
-			//// Steinhart Hart Equation
-			//// T = 1/(a + b[ln(ohm)] + c[ln(ohm)]^3)
-
-			//var t1 = (b * lnohm); // b[ln(ohm)]
-			//var c2 = c * lnohm; // c[ln(ohm)]
-			//var t2 = Math.Pow(c2, 3); // c[ln(ohm)]^3
-			//var temp = 1 / (a + t1 + t2); //calcualte temperature
-			//var tempc = temp - 273.15 - 4; // K to C
-			//return tempc;
-
-			double thermisterNominal = 10000;
-			double temperatureNominal = 25;
-			double bCoefficient = 3369;
-			double steinhart;
-
-//			var volts = Convert.ToDouble(adcReading) * (3.3 / 4095.0);
-// Trevor: why do we -1 here? How are we converting from volts on the pin, to ohms?
-			var ohms = ((_settings.AdcReferenceVoltage / pinVolts) - 1.0) * 10000.0;
-
-			steinhart = ohms / thermisterNominal;     // (R/Ro)
-			steinhart = Math.Log(steinhart);                  // ln(R/Ro)
-			steinhart /= bCoefficient;                   // 1/B * ln(R/Ro)
-			steinhart += 1.0 / (temperatureNominal + 273.15); // + (1/To)
-			steinhart = 1.0 / steinhart;                 // Invert
-			steinhart -= 273.15;                         // convert to C
-
-			return steinhart;
+			var result = _thermistorCalculator.ConvertResistanceToTemperatureCelcius(ThermistorModelParameters, thermistorResistance);
+			return result;
 		}
 	}
 }

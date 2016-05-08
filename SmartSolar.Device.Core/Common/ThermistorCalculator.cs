@@ -27,11 +27,19 @@ namespace SmartSolar.Device.Core.Common
 	}
 
 	/// <summary>
+	/// Single responsibility: wrap up either Beta or Steinhart-Hart parameters in a single object, so we can include them easily in settings.
+	/// </summary>
+	public class ThermistorModelParameters {
+		public ThermistorModel ThermistorModel { get; set; }
+		public ThermistorBetaModelParameters BetaParameters { get; set; }
+		public ThermistorSteinhartHartModelParameters SteinhartHartParameters { get; set; }
+	}
+	/// <summary>
 	/// Single responsibility: convert a resistance reading from a thermistor into a temperature reading.
 	/// </summary>
 	public class ThermistorCalculator
 	{
-		public double ConvertResistanceToTemperatureCelciusUsingSteinhartHartModel(double resistanceOhms)
+		public double ConvertResistanceToTemperatureCelciusUsingSteinhartHartModel(ThermistorSteinhartHartModelParameters modelParameters, double resistanceOhms)
 		{
 
 			throw new MissingMethodException("not implemented yet; should be easy to implement from https://www.thermistor.com/sites/default/files/specsheets/Beta-vs-Steinhart-Hart-Equations.pdf");
@@ -58,6 +66,16 @@ namespace SmartSolar.Device.Core.Common
 			var resultCelcius = resultKelvin - celciusToKelvin;
 			return resultCelcius;
 		}
+
+		public double ConvertResistanceToTemperatureCelcius(ThermistorModelParameters thermistorModelParameters, double resistanceOhms)
+		{
+			if (thermistorModelParameters.ThermistorModel == ThermistorModel.BetaModel) {
+				return ConvertResistanceToTemperatureCelciusUsingBetaModel(thermistorModelParameters.BetaParameters, resistanceOhms);
+			}
+			//  else must be Steinhart-Hart
+			return ConvertResistanceToTemperatureCelciusUsingSteinhartHartModel(thermistorModelParameters.SteinhartHartParameters, resistanceOhms);
+		}
+
 
 		// TODO: add a method to derive Steinhart-Hart parameters given a set of 3 calibration points 
 		// (resistance vs temperature) e.g. nearly-boiling water, warm water, ice water.

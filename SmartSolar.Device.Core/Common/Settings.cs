@@ -1,5 +1,9 @@
 ﻿namespace SmartSolar.Device.Core.Common
 {
+	/// <summary>
+	/// Single responsibility: hold all the things that can vary from installation to installation.
+	/// Eventually we'll have to figure out how to let the user change these - settings file? JSON? Store in the cloud?
+	/// </summary>
 	public class Settings
 	{
 		// Input pins on ADC
@@ -7,7 +11,29 @@
 		public int TankThermistorAdcPin = 2;
 		public int InletThermistorAdcPin = 3;
 		public float AdcReferenceVoltage = 3.3f;
-		// 
+
+		// Thermistors - all of these are the same, but in general they could be different (e.g. if we allow the user to calibrate each one)
+		public ThermistorModelParameters RoofThermistorModelParameters = new ThermistorModelParameters {
+			ThermistorModel = ThermistorModel.BetaModel,
+			BetaParameters = new ThermistorBetaModelParameters {
+				ReferenceResistanceAt25DegC = 10000,
+				BetaValue = 4100
+			}
+		};
+		public ThermistorModelParameters TankThermistorModelParameters = new ThermistorModelParameters {
+			ThermistorModel = ThermistorModel.BetaModel,
+			BetaParameters = new ThermistorBetaModelParameters {
+				ReferenceResistanceAt25DegC = 10000,
+				BetaValue = 4100
+			}
+		};
+		public ThermistorModelParameters InletThermistorModelParameters = new ThermistorModelParameters {
+			ThermistorModel = ThermistorModel.BetaModel,
+			BetaParameters = new ThermistorBetaModelParameters {
+				ReferenceResistanceAt25DegC = 10000,
+				BetaValue = 4100
+			}
+		};
 
 		// Output pins on GPIO
 		public int PumpGpioPin = 20;
