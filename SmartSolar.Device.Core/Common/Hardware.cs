@@ -13,24 +13,30 @@ namespace SmartSolar.Device.Core.Common
 	/// </summary>
 	public class Hardware
 	{
-		public IOutputConnection PumpOutputConnection { get; set; }
-		public IOutputConnection ElementOutputConnection { get; set; }
-		public ITemperatureReader TankTemperatureReader { get; set; }
+        public IOutputConnection PumpOutputConnection { get; set; }
+        public IOutputConnection PumpLedOutputConnection { get; set; }
+        public IOutputConnection ElementOutputConnection { get; set; }
+        public IOutputConnection ElementLedOutputConnection { get; set; }
+        public ITemperatureReader TankTemperatureReader { get; set; }
 		public ITemperatureReader InletTemperatureReader { get; set; }
 		public ITemperatureReader RoofTemperatureReader { get; set; }
 
 		public Hardware(
-			IOutputConnection pumpOutputConnection,
-			IOutputConnection elementOutputConnection,
-			ITemperatureReader tankTemperatureReader,
+            IOutputConnection pumpOutputConnection,
+            IOutputConnection pumpLedOutputConnection,
+            IOutputConnection elementOutputConnection,
+            IOutputConnection elementLedOutputConnection,
+            ITemperatureReader tankTemperatureReader,
 			ITemperatureReader inletTemperatureReader,
 			ITemperatureReader roofTemperatureReader
 
 			)
 		{
-			PumpOutputConnection = pumpOutputConnection;
-			ElementOutputConnection = elementOutputConnection;
-			TankTemperatureReader = tankTemperatureReader;
+            PumpOutputConnection = pumpOutputConnection;
+            PumpLedOutputConnection = pumpLedOutputConnection;
+            ElementOutputConnection = elementOutputConnection;
+            ElementLedOutputConnection = elementLedOutputConnection;
+            TankTemperatureReader = tankTemperatureReader;
 			InletTemperatureReader = inletTemperatureReader;
 			RoofTemperatureReader = roofTemperatureReader;
 		}

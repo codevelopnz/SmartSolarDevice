@@ -41,12 +41,14 @@ namespace SmartSolar.Device.Core.Common
 			// Initialize the ADC
 			await _adc.Initialise();
 
-			// Set the initial states of the outputs
-			_hardware.ElementOutputConnection.State = false;
-			_hardware.PumpOutputConnection.State = false;
+            // Set the initial states of the outputs
+            _hardware.ElementOutputConnection.State = false;
+            _hardware.ElementLedOutputConnection.State = false;
+            _hardware.PumpOutputConnection.State = false;
+            _hardware.PumpLedOutputConnection.State = false;
 
-			// Kick off the poller
-			_sensorPoller.PollContinuously();
+            // Kick off the poller
+            _sensorPoller.PollContinuously();
 		}
 	}
 }

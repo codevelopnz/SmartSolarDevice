@@ -39,6 +39,7 @@ namespace SmartSolar.Device.Core.Pump
 			var shouldPumpBeOn = _pumpStrategy.ShouldPumpBeOn(_pumpStrategyParams);
 
 			_hardware.PumpOutputConnection.State = shouldPumpBeOn;
-		}
+            _hardware.PumpLedOutputConnection.State = shouldPumpBeOn;
+        }
 	}
 }

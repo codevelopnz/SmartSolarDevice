@@ -51,19 +51,23 @@ namespace SmartSolar.Device
 				// Configure the GPIO for outputs
 				var gpioController = GpioController.GetDefault();
 				var pumpGpioPin = gpioController.OpenPin(settings.PumpGpioPin);
-				var elementGpioPin = gpioController.OpenPin(settings.ElementGpioPin);
+                var pumpLedGpioPin = gpioController.OpenPin(settings.PumpLedPin);
+                var elementGpioPin = gpioController.OpenPin(settings.ElementGpioPin);
+                var elementLedGpioPin = gpioController.OpenPin(settings.ElementLedPin);
 
-				// Use real inputs/outputs where requested
-				_kernel.Bind<IOutputConnection>().To<GpioOutputConnection>();
+                // Use real inputs/outputs where requested
+                _kernel.Bind<IOutputConnection>().To<GpioOutputConnection>();
 				_kernel.Bind<ITemperatureReader>().To<ThermistorTemperatureReader>();
 
 				// Get and configure the hardware object with correct pins etc
 				var hardware = _kernel.Get<Hardware>();
-				// - GPIO Outputs
-				(hardware.PumpOutputConnection as GpioOutputConnection)?.Configure(pumpGpioPin);
-				(hardware.ElementOutputConnection as GpioOutputConnection)?.Configure(elementGpioPin);
-				// - ADC inputs
-				((ThermistorTemperatureReader) hardware.RoofTemperatureReader).PinNumber = settings.RoofThermistorAdcPin;
+                // - GPIO Outputs
+                (hardware.PumpOutputConnection as GpioOutputConnection)?.Configure(pumpGpioPin);
+                (hardware.PumpLedOutputConnection as GpioOutputConnection)?.Configure(pumpLedGpioPin);
+                (hardware.ElementOutputConnection as GpioOutputConnection)?.Configure(elementGpioPin);
+                (hardware.ElementLedOutputConnection as GpioOutputConnection)?.Configure(elementLedGpioPin);
+                // - ADC inputs
+                ((ThermistorTemperatureReader) hardware.RoofTemperatureReader).PinNumber = settings.RoofThermistorAdcPin;
 				((ThermistorTemperatureReader) hardware.TankTemperatureReader).PinNumber = settings.TankThermistorAdcPin;
 				((ThermistorTemperatureReader) hardware.InletTemperatureReader).PinNumber = settings.InletThermistorAdcPin;
 				// - Thermistor model parameters

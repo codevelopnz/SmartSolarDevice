@@ -38,6 +38,7 @@ namespace SmartSolar.Device.Core.Element
 			var shouldElementBeOn = _elementStrategy.ShouldElementBeOn(_elementStrategyParams);
 
 			_hardware.ElementOutputConnection.State = shouldElementBeOn;
-		}
+            _hardware.ElementLedOutputConnection.State = shouldElementBeOn;
+        }
 	}
 }

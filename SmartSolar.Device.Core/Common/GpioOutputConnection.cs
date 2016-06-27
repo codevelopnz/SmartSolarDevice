@@ -18,7 +18,7 @@ namespace SmartSolar.Device.Core.Common
 			{
 				if (value == _state) return;
 				_state = value;
-				_gpioPin.Write(GpioPinValue.High);
+				_gpioPin.Write(value == true ? GpioPinValue.Low : GpioPinValue.High);
 				NotifyOfPropertyChange(() => State);
 			}
 		}
@@ -26,6 +26,11 @@ namespace SmartSolar.Device.Core.Common
 		public void Configure(GpioPin gpioPin)
 		{
 			_gpioPin = gpioPin;
-		}
+            // init the pin
+            _gpioPin.SetDriveMode(GpioPinDriveMode.Output);
+            _gpioPin.Write(GpioPinValue.High);
+            _gpioPin.Write(GpioPinValue.Low);
+            _gpioPin.Write(GpioPinValue.High);
+        }
 	}
 }
