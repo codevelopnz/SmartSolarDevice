@@ -77,6 +77,7 @@ namespace SmartSolar.Device
 
 			} else {
 				// Use fake inputs / outputs where requested
+				_kernel.Bind<IAnalogToDigitalConvertor>().To<FakeAnalogToDigitalConvertor>().InSingletonScope();
 				_kernel.Bind<IOutputConnection>().To<FakeOutputConnection>();
 				_kernel.Bind<ITemperatureReader>().To<FakeTemperatureReader>();
 				// Setup some initial values for fake readings
