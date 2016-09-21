@@ -1,5 +1,6 @@
 # SmartSolarDevice
 This is the bit of the [SmartSolarProject](https://github.com/codevelopnz/SmartSolarProject) that runs on the Raspberry Pi.
+(Note that if you don't have a Raspberry Pi, you can still run the project with "virtual" hardware just on your dev machine though!)
 
 ## Function of the Hardware
 This hardware has the ability to:
@@ -39,5 +40,13 @@ Ultimately, I want to make this as compact and robust as possible without going 
 ![alt tag](https://raw.githubusercontent.com/codevelopnz/SmartSolarDevice/master/Resources/breadboard.PNG "Early breadboard design!")
 
 Coming soon...photos of the early breadboard prototype, my current prototype and soon the permaproto all soldered up.
+
+## Getting setup to develop
+Assuming you're running on Windows (this is Windows IoT after all):
+* Follow [these instructions](https://developer.microsoft.com/en-us/windows/iot/docs/setuppcrpi) to setup your computer to develop UWP applications in general, and IoT Core projects in particular
+* Download this repo to your machine. I use (sourcetree)[https://www.sourcetreeapp.com/] as a git client & recommend it if you're not already a git guru
+* From Visual Studio, open the solution SmartSolar.Device.sln
+* Visual Studio might tell you that you need to install some Platform SDK's - do that
+
 
 
