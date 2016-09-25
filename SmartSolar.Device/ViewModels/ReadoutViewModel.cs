@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using SmartSolar.Device.Core.ApiClient;
 using SmartSolar.Device.Core.Common;
 using SmartSolar.Device.Core.Element;
 using SmartSolar.Device.Core.Pump;
@@ -14,7 +15,8 @@ namespace SmartSolar.Device.ViewModels
 	public class ReadoutViewModel : Screen
 	{
 		private readonly HardwareInitializer _hardwareInitializer;
-		public PumpController PumpController { get; set; }
+	    private readonly ApiLinkManager _apiLinkManager;
+	    public PumpController PumpController { get; set; }
 		public ElementController ElementController { get; set; }
 		public Hardware Hardware { get; set; }
 
@@ -43,11 +45,13 @@ namespace SmartSolar.Device.ViewModels
 			PumpController pumpController,
 			ElementController elementController,
 			Hardware hardware,
-			HardwareInitializer hardwareInitializer 
+			HardwareInitializer hardwareInitializer ,
+            ApiLinkManager apiLinkManager
 			)
 		{
 			_hardwareInitializer = hardwareInitializer;
-			PumpController = pumpController;
+		    _apiLinkManager = apiLinkManager;
+		    PumpController = pumpController;
 			ElementController = elementController;
 			Hardware = hardware;
 
@@ -62,6 +66,7 @@ namespace SmartSolar.Device.ViewModels
 			// Hardware initialization is async, and needs to be done somewhere where that won't hang
 			// Here is a good place - see HardwareInitializer class for details
 			_hardwareInitializer.Initialize();
+            _apiLinkManager.ManageApiLink();
 		}
 
 		public void RoofDegCPlus()

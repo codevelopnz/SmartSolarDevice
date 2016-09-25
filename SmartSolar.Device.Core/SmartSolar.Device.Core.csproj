@@ -107,6 +107,8 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiClient\ApiClient.cs" />
+    <Compile Include="ApiClient\ApiLinkManager.cs" />
     <Compile Include="Common\FakeAnalogToDigitalConvertor.cs" />
     <Compile Include="Common\Hardware.cs" />
     <Compile Include="Common\HardwareInitializer.cs" />
