@@ -46,7 +46,19 @@ Assuming you're running on Windows (this is Windows IoT after all):
 * Follow [these instructions](https://developer.microsoft.com/en-us/windows/iot/docs/setuppcrpi) to setup your computer to develop UWP applications in general, and IoT Core projects in particular
 * Download this repo to your machine. I use (sourcetree)[https://www.sourcetreeapp.com/] as a git client & recommend it if you're not already a git guru
 * From Visual Studio, open the solution SmartSolar.Device.sln
-* Visual Studio might tell you that you need to install some Platform SDK's - do that
+* Visual Studio might tell you that you need to install some Platform SDK's - do that.
+* You'll see 3 projects in the solution:
+  * SmartSolar.Device is the visual part of the project
+  * SmartSolar.Device.Core is the non-visual parts of the project
+  * SmartSolar.Device.Test is the test suite (references SmartSolar.Device.Core)
+To run the project locally on your Windows machine (if you don't have a device):
+  * Set  SmartSolar.Device.Core as the startup project
+  * Make sure the "Solution Platforms" drop-down (near the Run button) is set to "Any CPU"
+  * Run
+To run the project on a Raspberry Pi device:
+  * Set SmartSolar.Device as the startup project
+  * Make sure the "Solution Platforms" drop-down (near the Run button) is set to "ARM"
+  * Run
 
 
 
