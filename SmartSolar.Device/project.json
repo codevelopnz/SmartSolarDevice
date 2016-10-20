@@ -3,6 +3,7 @@
     "Caliburn.Micro": "3.0.0",
     "Caliburn.Micro.Core": "3.0.0",
     "FluentAssertions": "4.5.0",
+    "Microsoft.AspNet.SignalR.Client": "2.2.0",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
     "Microsoft.Xaml.Behaviors.Uwp.Managed": "1.1.0",
     "Portable.Ninject": "3.3.1"

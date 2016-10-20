@@ -114,6 +114,7 @@
     <Compile Include="Common\HardwareInitializer.cs" />
     <Compile Include="Common\MCP3008.cs" />
     <Compile Include="Common\ThermistorCalculator.cs" />
+    <Compile Include="Plumbing\DebugTextWriter.cs" />
     <Compile Include="Sensor\SensorPoller.cs" />
     <Compile Include="Messages\SensorsWereRead.cs" />
     <Compile Include="Element\ElementController.cs" />

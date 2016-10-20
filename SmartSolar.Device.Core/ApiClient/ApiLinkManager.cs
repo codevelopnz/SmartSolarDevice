@@ -27,16 +27,16 @@ namespace SmartSolar.Device.Core.ApiClient
 			new TaskFactory().StartNew(async () =>
 			{
 				while(true) {
-					TryAuthenticate();
+					TryConnect();
 //					_eventAggregator.PublishOnUIThread(new SensorsWereRead());
 					await Task.Delay(TimeSpan.FromMinutes(1));
 				}
 			});
 		}
 
-        private void TryAuthenticate()
+        private void TryConnect()
         {
-            _apiClient.Authenticate("username", "password");
+            _apiClient.TryConnect();
         }
     }
 }
